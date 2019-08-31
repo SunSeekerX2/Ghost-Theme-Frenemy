@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+
+    {{!-- Document Settings --}}
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    {{!-- Base Meta --}}
+    <title>{{meta_title page=(t " (第%页)")}}{{#is "home"}} – 关注互联网及IT科技的个人博客{{/is}}{{#is "post, page"}} – {{@site.title}}{{/is}}</title>
+    <meta name="HandheldFriendly" content="True"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="keywords" content="淮城一只猫,淮城,IT博客,个人博客,王瑾,盒子丶先生,WEB平台,BOX-ROM,BoxMod">
+
+    {{!-- Styles'n'Scripts --}}
+    <link rel="stylesheet" type="text/css" href="{{asset "fonts/css/font-awesome.min.css"}}" />
+    <link rel="stylesheet" type="text/css" href="{{asset "bootstrap/bootstrap.min.css"}}" />
+    <link rel="stylesheet" type="text/css" href="{{asset "app/app.min.css"}}" />
+
+    {{!-- dns预加载 --}}
+    <link rel="dns-prefetch" href="{{@site.url}}">
+    <link rel="dns-prefetch" href="//casper.ghost.org">
+    <link rel="dns-prefetch" href="//static.ghost.org">
+    <link rel="dns-prefetch" href="//cdn.jsdelivr.net">
+    <link rel="dns-prefetch" href="//cdn.iiong.com">
+    <link rel="dns-prefetch" href="//hm.baidu.com">
+    <link rel="dns-prefetch" href="//zz.bdstatic.com">
+    <link rel="dns-prefetch" href="//sp0.baidu.com">
+    <link rel="dns-prefetch" href="//api.share.baidu.com">
+    <link rel="dns-prefetch" href="//push.zhanzhang.baidu.com">
+
+    {{!-- This tag outputs SEO meta+structured data and other important settings --}}
+    {{ghost_head}}
+
+    <style>
+        .medium-zoom-image--opened {
+            z-index: 1;
+        }
+    </style>
+</head>
+<body class="{{body_class}}">
+
+<div class="site-warp">
+
+    {{!-- All the main content gets inserted here, index.hbs, post.hbs, etc --}}
+    {{{body}}}
+
+    {{!-- The footer at the very bottom of the screen --}}
+    <footer class="site-footer">
+        <div class="container d-flex justify-content-sm-between justify-content-center text-center">
+            <div class="copyright">
+                <p>Powered by Ghost. Copyright &copy; 2019. Crafted with Frenemy.</p>
+            </div>
+            <nav class="social-links d-none d-sm-block">
+                <ul>
+                    <li class="social-link"><a target="_blank" rel="noopener nofollow" href="https://weibo.com/jaxsonwang"><i class="fab fa-weibo"></i></a></li>
+                    <li class="social-link"><a target="_blank" rel="noopener nofollow" href="https://twitter.com/jaxsonwangchina"><i class="fab fa-twitter"></i></a></li>
+                </ul>
+            </nav>
+        </div>
+    </footer>
+    <div id="return-to-top" class="animated"><i class="fas fa-angle-double-up"></i></div>
+</div>
+
+{{!-- JavaScript --}}
+<script type="text/javascript" src="{{asset "jquery/jquery.min.js"}}"></script>
+<script type="text/javascript" src="{{asset "bootstrap/bootstrap.min.js"}}"></script>
+<script type="text/javascript" src="{{asset "pivot/pivot.min.js"}}"></script>
+<script type="text/javascript" src="{{asset "app/app.min.js"}}"></script>
+<script type="text/javascript" src="{{asset "app/casper.js"}}"></script>
+
+{{!-- The #block helper will pull in data from the #contentFor other template files. In this case, there's some JavaScript which we only want to use in post.hbs, but it needs to be included down here, after jQuery has already loaded. --}}
+{{{block "scripts"}}}
+
+{{!-- Ghost outputs important scripts and data with this tag - it should always be the very last thing before the closing body tag --}}
+{{ghost_foot}}
+
+{{> "toasts"}}
+
+</body>
+</html>

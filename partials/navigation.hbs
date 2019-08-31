@@ -1,0 +1,24 @@
+<header class="site-header fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <a class="navbar-brand" href="{{@site.url}}">{{@site.title}}</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ml-auto">
+                    <!--TODO 这边 Ghost Nav好像有改动，暂时这样后期再查看源码修改-->
+                    {{#if @site.navigation}}
+                    {{! Loop through the navigation items }}
+                        {{#foreach navigation}}
+                            <li class="nav-item {{link_class for=(url) class=(concat "nav-" slug)}}{{#if current}} active{{/if}}" role="menuitem">
+                                <a class="nav-link" href="{{url absolute="true"}}">{{label}}</a>
+                            </li>
+                        {{/foreach}}
+                    {{! End the loop }}
+                    {{/if}}
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
