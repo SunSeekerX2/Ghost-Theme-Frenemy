@@ -56,7 +56,7 @@ function css(done) {
   ];
 
   pump([
-    src('assets/main/main.scss', {sourcemaps: true}),
+    src('assets/main/main.scss', {sourcemaps: false}),
     sass().on('error', sass.logError),
     postcss(processors),
     rename({suffix: '.min'}),
@@ -67,7 +67,7 @@ function css(done) {
 
 function js(done) {
   pump([
-    src('assets/main/main.js', {sourcemaps: true}),
+    src('assets/main/main.js', {sourcemaps: false}),
     uglify(),
     rename({suffix: '.min'}),
     dest('assets/main/', {sourcemaps: '.'}),

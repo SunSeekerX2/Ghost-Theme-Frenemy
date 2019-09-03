@@ -1,0 +1,285 @@
+$bg-dark-1: #080808 !default; // 深黑色背景色
+$bg-dark-2: #252525 !default; // 浅黑色背景色
+
+$dark-font: #b7b7b7 !default; // 字体色
+
+.post-content .kg-image {
+  max-width: 100%;
+}
+
+/* Preventing full-width image overlap with post image. */
+.post-full-image + .post-content .kg-content *:first-child .kg-image {
+  width: 100%;
+}
+
+.post-content .kg-width-wide .kg-image {
+  max-width: 65rem;
+}
+
+.post-content .kg-width-full .kg-image {
+  max-width: 100vw;
+}
+
+.post-content figure {
+  margin: 1.5em 0 3em;
+}
+
+.post-content figure img {
+  margin: 0;
+}
+
+.post-content figcaption {
+  margin: 1.0em 0 0;
+  font-size: 80%;
+  line-height: 1.6em;
+  text-align: center;
+}
+
+.kg-width-full figcaption {
+  padding: 0 1.5em;
+}
+
+.kg-embed-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.kg-embed-card .fluid-width-video-wrapper {
+  margin: 0;
+}
+
+@media (max-width: 65rem) {
+  .post-content .kg-width-full .kg-image {
+    width: 100vw;
+  }
+}
+
+.kg-gallery-container {
+  display: flex;
+  flex-direction: column;
+  max-width: 65rem;
+  width: 100vw;
+}
+
+.kg-gallery-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.kg-gallery-image img {
+  display: block;
+  margin: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.kg-gallery-row:not(:first-of-type) {
+  margin: 0.75em 0 0 0;
+}
+
+.kg-gallery-image:not(:first-of-type) {
+  margin: 0 0 0 0.75em;
+}
+
+.kg-gallery-card + .kg-image-card.kg-width-wide, .kg-gallery-card + .kg-gallery-card, .kg-image-card.kg-width-wide + .kg-gallery-card, .kg-image-card.kg-width-wide + .kg-image-card.kg-width-wide {
+  margin: -2.25em 0 3em;
+}
+
+/* keep existing <pre> styles for code cards with captions */
+.kg-code-card {
+  min-width: 100%;
+}
+
+.kg-code-card pre {
+  margin: 0;
+}
+
+/* 日夜模式支持 */
+[data-theme="dark"] .post-comments {
+  .v {
+    .vwrap {
+      border: 1px solid $bg-dark-1;
+
+      .vheader {
+        .vinput {
+          border-bottom: 0.0625rem dashed $dark-font;
+        }
+      }
+    }
+
+    .vbtn {
+      border: 1px solid $bg-dark-1;
+      background: $bg-dark-2;
+      color: $dark-font;
+    }
+
+    .vlist {
+      .vcard {
+        .vhead {
+          .vsys {
+            background: $bg-dark-1;
+            color: $dark-font;
+          }
+        }
+
+        .vh {
+          border-bottom: 0.0625rem dashed $bg-dark-1;
+        }
+      }
+      .vquote {
+        border-left: $bg-dark-1;
+      }
+    }
+
+    .vcontrol {
+      .col {
+        color: $bg-dark-2;
+      }
+    }
+
+    * {
+      color: $dark-font;
+    }
+  }
+}
+
+/*搜索*/
+.app-search-result {
+  display: none;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: #fff;
+  flex-wrap: wrap;
+  z-index: 1030;
+  &.active {
+    display: flex;
+  }
+
+  .search-close {
+    position: absolute;
+    z-index: 1031;
+    top: 2.5rem;
+    right: 2.5rem;
+    width: 2.3125rem;
+    height: 2.3125rem;
+    fill: #ddd;
+    cursor: pointer;
+  }
+
+  .search-content {
+    flex: 1 0 auto;
+    width: 100%;
+    max-width: 50rem;
+    margin: 2.5rem auto;
+    padding: 5rem 1rem;
+
+    .search-form {
+      position: relative;
+
+      .search-icon {
+        position: absolute;
+        top: 0.9375rem;
+        left: 0;
+        font-size: 1.75rem;
+        color: #777;
+      }
+
+      label {
+        width: 100%;
+
+        .search-input {
+          font-size: 1.875rem;
+          font-weight: 700;
+          display: block;
+          width: 100%;
+          min-width: 6.25rem;
+          height: 3.875rem;
+          padding: 0 0 0.1875rem 2.5rem;
+          transition: border-color .3s ease;
+          color: #333;
+          border-width: 0 0 0.4375rem 0;
+          border-style: solid;
+          border-color: #999;
+          border-radius: 0;
+          outline: 0;
+          flex: 0 0 100%;
+          background: 0 0;
+        }
+      }
+    }
+
+    .search-meta {
+      font-size: 0.6875rem;
+      font-weight: 700;
+      display: block;
+      width: 100%;
+      margin: 0 auto;
+      padding: 0.9375rem 0;
+      text-align: left;
+      text-transform: uppercase;
+      color: #333;
+    }
+
+    .search-results {
+      overflow: auto;
+      height: 100vh;
+      padding-bottom: 16rem;
+      .ghost-search-item {
+        margin: 0.9375rem 0 1.875rem 0;
+        display: block;
+        cursor: pointer;
+
+        h2 {
+          font-size: 1.875rem;
+          color: #333;
+          margin-bottom: 0.625rem;
+        }
+
+        span {
+          font-size: 0.8125rem;
+          color: #777;
+          font-weight: 700;
+        }
+      }
+    }
+  }
+}
+
+[data-theme="dark"] .app-search-result {
+  background: $bg-dark-2;
+  .search-close {
+    fill: $dark-font;
+  }
+  .search-content {
+    .search-form {
+      .search-icon {
+        color: $dark-font;
+      }
+      label {
+        .search-input {
+          color: $dark-font;
+          border-color: $dark-font;
+        }
+      }
+    }
+    .search-meta {
+      color: $dark-font;
+    }
+    .search-results {
+      .ghost-search-item {
+        h2 {
+          color: $dark-font;
+        }
+        span {
+          color: $dark-font;
+        }
+      }
+    }
+  }
+}
