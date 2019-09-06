@@ -26,90 +26,94 @@ var leancloudAppKey = 'lmX57j7hrYGCHROA72tBUIXq';  // leancloud 应用 appkey
     bdhmt.parentNode.insertBefore(hm, bdhmt);
 
     //valine评论支持
-    loadScript('//cdn.jsdelivr.net/npm/leancloud-storage/dist/av-min.js', function () {
-      loadScript(
-        'https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js',
-        function () {
-          if (document.getElementById('vcomments') !== null) {
-            new Valine({
-              el: '#vcomments',
-              appId: leancloudAppId,
-              appKey: leancloudAppKey,
-              notify: true,
-              verify: true,
-              avatar: 'mm',
-              visitor: true, // 文章访问量统计
-              highlight: true, // 代码高亮
-              recordIP: true, // 是否记录评论者IP
-              placeholder: '请您理智发言，共建美好社会！'
-            });
+    if($('#vcomments').length !== 0) {
+      loadScript('//cdn.jsdelivr.net/npm/leancloud-storage/dist/av-min.js', function () {
+        loadScript(
+          'https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js',
+          function () {
+            if (document.getElementById('vcomments') !== null) {
+              new Valine({
+                el: '#vcomments',
+                appId: leancloudAppId,
+                appKey: leancloudAppKey,
+                notify: true,
+                verify: true,
+                avatar: 'mm',
+                visitor: true, // 文章访问量统计
+                highlight: true, // 代码高亮
+                recordIP: true, // 是否记录评论者IP
+                placeholder: '请您理智发言，共建美好社会！'
+              });
+            }
           }
-        }
-      );
-    });
+        );
+      });
+    }
 
     // 配置搜索
-    loadScript('//cdn.jsdelivr.net/npm/@tryghost/content-api/umd/content-api.min.js', function () {
-      loadScript('//cdn.jsdelivr.net/npm/ghost-search/dist/ghost-search.min.js', function () {
-        loadScript('//cdn.jsdelivr.net/npm/dayjs/dayjs.min.js', function () {
-          var ghostSearch = new GhostSearch({
-            key: ghostSearchkey,
-            host: [location.protocol, '//', location.host].join(''),
-            trigger: 'focus',
-            defaultValue: '',
-            options: {
-              keys: ['title', 'published_at', 'url']
-            },
-            api: {
-              parameters: {
-                fields: ['title', 'published_at', 'url']
+    if($('#ghost-search-field').length !== 0) {
+      loadScript('//cdn.jsdelivr.net/npm/@tryghost/content-api/umd/content-api.min.js', function () {
+        loadScript('//cdn.jsdelivr.net/npm/ghost-search/dist/ghost-search.min.js', function () {
+          loadScript('//cdn.jsdelivr.net/npm/dayjs/dayjs.min.js', function () {
+            var ghostSearch = new GhostSearch({
+              key: ghostSearchkey,
+              host: [location.protocol, '//', location.host].join(''),
+              trigger: 'focus',
+              defaultValue: '',
+              options: {
+                keys: ['title', 'published_at', 'url']
+              },
+              api: {
+                parameters: {
+                  fields: ['title', 'published_at', 'url']
+                }
+              },
+              template: function (results) {
+                var time = dayjs(results.published_at).format('YYYY年MM月DD日');
+                return '' +
+                  '<a href="' + results.url + '" class="ghost-search-item">' +
+                  '<h2>' + results.title + '</h2>' +
+                  '<span>发布日期：' + time + '</span>' +
+                  '</a>'
+              },
+              on: {
+                afterDisplay: function (result) {
+                  var mate = $('.search-meta');
+                  var text = mate.attr('data-no-results-text');
+                  text = text.replace('[results]', result.total);
+                  mate.text(text).show();
+                }
               }
-            },
-            template: function (results) {
-              var time = dayjs(results.published_at).format('YYYY年MM月DD日');
-              return '' +
-                '<a href="' + results.url + '" class="ghost-search-item">' +
-                '<h2>' + results.title + '</h2>' +
-                '<span>发布日期：' + time + '</span>' +
-                '</a>'
-            },
-            on: {
-              afterDisplay: function (result) {
-                var mate = $('.search-meta');
-                var text = mate.attr('data-no-results-text');
-                text = text.replace('[results]', result.total);
-                mate.text(text).show();
+            });
+
+            // 搜索关键词
+            $('#nav-top-search').keypress(function (e) {
+              if (e.which === 13) {
+                $('.app-search-result').addClass('active');
+                $('html').addClass('overflow-hidden');
+                // todo 优化搜索 有几次搜索结果不显示
+                $('#ghost-search-field').val($(this).val()).focus();
               }
-            }
-          });
+            });
+            // 手机关键词搜索
+            $('#mobile-search').keypress(function (e) {
+              if (e.which === 13) {
+                $('.app-search-result').addClass('active');
+                $('html').addClass('overflow-hidden');
+                // todo 优化搜索 有几次搜索结果不显示
+                $('#ghost-search-field').val($(this).val()).focus();
+              }
+            });
 
-          // 搜索关键词
-          $('#nav-top-search').keypress(function (e) {
-            if (e.which === 13) {
-              $('.app-search-result').addClass('active');
-              $('html').addClass('overflow-hidden');
-              // todo 优化搜索 有几次搜索结果不显示
-              $('#ghost-search-field').val($(this).val()).focus();
-            }
-          });
-          // 手机关键词搜索
-          $('#mobile-search').keypress(function (e) {
-            if (e.which === 13) {
-              $('.app-search-result').addClass('active');
-              $('html').addClass('overflow-hidden');
-              // todo 优化搜索 有几次搜索结果不显示
-              $('#ghost-search-field').val($(this).val()).focus();
-            }
-          });
-
-          $('.search-close').click(function () {
-            $('.app-search-result').removeClass('active');
-            $('#nav-top-search').val('');
-            $('html').removeClass('overflow-hidden');
-          });
-        })
+            $('.search-close').click(function () {
+              $('.app-search-result').removeClass('active');
+              $('#nav-top-search').val('');
+              $('html').removeClass('overflow-hidden');
+            });
+          })
+        });
       });
-    });
+    }
 
     // 监听点击链接时间，非本站链接进行新标签打开
     $(document).on('click', 'a', function (event) {
