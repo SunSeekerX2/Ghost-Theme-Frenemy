@@ -62,19 +62,17 @@
         </div>
     </footer>
     <div id="return-to-top" class="fixed-tools animated"><i class="fas fa-angle-double-up"></i></div>
+    {{> "toasts"}}
 </div>
+
+{{!-- Ghost outputs important scripts and data with this tag - it should always be the very last thing before the closing body tag --}}
+{{ghost_foot}}
 
 {{!-- JavaScript --}}
 <script type="text/javascript" src="//cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
 <script type="text/javascript" src="//cdn.jsdelivr.net/npm/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 <script type="text/javascript" src="{{asset "app/app.min.js"}}"></script>
 <script type="text/javascript" src="{{asset "main/main.js"}}"></script>
-
-{{!-- The #block helper will pull in data from the #contentFor other template files. In this case, there's some JavaScript which we only want to use in post.hbs, but it needs to be included down here, after jQuery has already loaded. --}}
-{{{block "scripts"}}}
-
-{{!-- Ghost outputs important scripts and data with this tag - it should always be the very last thing before the closing body tag --}}
-{{ghost_foot}}
 
 {{> "search"}}
 </body>

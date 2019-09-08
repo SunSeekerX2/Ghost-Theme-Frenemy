@@ -2,6 +2,7 @@ var ghostSearchkey = '99efee9603c92e5cd04501f069'; // 搜索key
 var baiduTongJikey = '37d3bf3116f041cb10bd1d890e65bcfc'; // 百度统计id
 var leancloudAppId = 'rEDT0uBB2LEdndoJ4od2SlKf-gzGzoHsz'; // leancloud 应用 appid
 var leancloudAppKey = 'lmX57j7hrYGCHROA72tBUIXq';  // leancloud 应用 appkey
+var leancloudServerURL = 'https://leancloud-api.iiong.com'; // leancloud 应用 Api 地址私有域名
 var googleAnalyticsId = 'UA-141063659-1'; // 谷歌分析ID
 
 // key: '1c8b902ac09889962117d082e6',
@@ -36,6 +37,7 @@ var googleAnalyticsId = 'UA-141063659-1'; // 谷歌分析ID
                 el: '#vcomments',
                 appId: leancloudAppId,
                 appKey: leancloudAppKey,
+                serverURLs: leancloudServerURL,
                 notify: true,
                 verify: true,
                 avatar: 'mm',
