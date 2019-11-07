@@ -11,12 +11,7 @@ var googleAnalyticsId = 'UA-141063659-1'; // 谷歌分析ID
 (function ($) {
   $(document).ready(function () {
     //百度推送
-    var curProtocol = window.location.protocol.split(':')[0];
-    if (curProtocol === 'https') {
-      loadScript('https://zz.bdstatic.com/linksubmit/push.js');
-    } else {
-      loadScript('http://push.zhanzhang.baidu.com/push.js');
-    }
+    window.location.protocol.split(':')[0] === 'https' ? loadScript('https://zz.bdstatic.com/linksubmit/push.js') : loadScript('http://push.zhanzhang.baidu.com/push.js');
     //百度统计
     loadScript('https://hm.baidu.com/hm.js?' + baiduTongJikey);
     // 谷歌分析
