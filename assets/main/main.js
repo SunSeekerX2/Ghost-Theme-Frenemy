@@ -17,12 +17,16 @@ var googleAnalyticsId = 'UA-141063659-1'; // 谷歌分析ID
     // 谷歌分析
     loadScript('https://www.googletagmanager.com/gtag/js?id=' + googleAnalyticsId, function () {
       window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
+
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+
       gtag('js', new Date());
       gtag('config', googleAnalyticsId);
     });
     //valine评论支持
-    if($('#vcomments').length !== 0) {
+    if ($('#vcomments').length !== 0) {
       loadScript('//cdn.jsdelivr.net/npm/leancloud-storage/dist/av-min.js', function () {
         loadScript(
           'https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js',
@@ -47,13 +51,13 @@ var googleAnalyticsId = 'UA-141063659-1'; // 谷歌分析ID
       });
     }
     // 配置搜索
-    if($('#ghost-search-field').length !== 0) {
+    if ($('#ghost-search-field').length !== 0) {
       loadScript('//cdn.jsdelivr.net/npm/@tryghost/content-api/umd/content-api.min.js', function () {
         loadScript('//cdn.jsdelivr.net/npm/ghost-search/dist/ghost-search.min.js', function () {
           loadScript('//cdn.jsdelivr.net/npm/dayjs/dayjs.min.js', function () {
             var ghostSearch = new GhostSearch({
               key: ghostSearchkey,
-              host: [location.protocol, '//', location.host].join(''),
+              url: [location.protocol, '//', location.host].join(''),
               trigger: 'focus',
               defaultValue: '',
               options: {
@@ -121,5 +125,63 @@ var googleAnalyticsId = 'UA-141063659-1'; // 谷歌分析ID
         }
       }
     });
+
+    // 自定义分页
+    function createPagination(){
+      var url = window.location.href;
+      var currPageElm = document.querySelector('.curr-page');
+      var totalPagesElm = document.querySelector('.total-pages');
+      if (!currPageElm || !totalPagesElm)
+        return;
+      var currentPage = Number.parseInt(currPageElm.textContent, 10);
+      var totalPages = Number.parseInt(totalPagesElm.textContent, 10);
+      var paginationElm = document.querySelector('.pagination');
+      var paginationPrev = document.querySelector('.page-item');
+      if (totalPages > 1) {
+        var paginationItems = [];
+        var paginationArr = pagination(currentPage, totalPages);
+        paginationArr.forEach(function (pagElm){
+          var urlArray = url.split('/');
+          if (pagElm === currentPage) {
+            paginationItems.push('<li class="page-item active"><span class="page-link">'+ pagElm +'</span></li>');
+          }
+          else if (typeof pagElm === 'number') {
+            if (urlArray[urlArray.length - 3] === 'page') {
+              url = url.replace(/\/page\/.*$/, '') + '/';
+            }
+            paginationItems.push('<li class="page-item"><a class="page-link" href="'+ url +'page/'+ pagElm +'" aria-label="第'+ pagElm +'页">'+ pagElm +'</a></li>');
+          }
+          else {
+            paginationItems.push('<li class="page-item ellipsis"><a class="page-link">...</a></li>');
+          }
+        });
+        if(paginationPrev !== null) {
+          currentPage === 1 ?
+            paginationPrev.insertAdjacentHTML('beforebegin', paginationItems.join(''))
+            :
+            paginationPrev.insertAdjacentHTML('afterend', paginationItems.join(''));
+        }
+      }
+      else if (paginationElm != null) {
+        paginationElm.style.display = 'none';
+      }
+    }
+
+    function pagination(currentPage, pageCount) {
+      var range = [];
+      var delta = 2;
+      for (var i = Math.max(2, currentPage - delta); i <= Math.min(pageCount - 1, currentPage + delta); i++) {
+        range.push(i);
+      }
+      if (currentPage - delta > 2)
+        range.unshift('...');
+      if (currentPage + delta < pageCount - 1)
+        range.push('...');
+      range.unshift(1);
+      range.push(pageCount);
+      return range;
+    }
+
+    createPagination();
   });
 })(jQuery);
