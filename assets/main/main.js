@@ -218,7 +218,7 @@ function watchSiteLink() {
       gtag('config', googleAnalyticsId);
     });
 
-    var aaa = valineInit();
+    valineInit();
     searchInit();
     watchSiteLink();
     createPagination();
@@ -265,7 +265,6 @@ function doPjaxCompleteAction() {
       path: window.location.pathname
     }));
   }
-  $('[data-toggle="tooltip"]').tooltip();
 
   // 百度统计
   if (typeof _hmt !== 'undefined') {
