@@ -113,7 +113,9 @@ function valineInit() {
  */
 function searchInit() {
   var initConfig = function() {
-    var ghostSearch = new GhostSearch({
+    new GhostSearch({
+      host: [location.protocol, '//', location.host].join(''),
+      version: 'v3',
       key: ghostSearchkey,
       url: [location.protocol, '//', location.host].join(''),
       trigger: 'focus',
@@ -129,7 +131,7 @@ function searchInit() {
       template: function (results) {
         var time = dayjs(results.published_at).format('YYYY年MM月DD日');
         return '' +
-          '<a href="' + results.url + '" class="ghost-search-item">' +
+          '<a search-pjax href="' + results.url + '" class="ghost-search-item">' +
           '<h2>' + results.title + '</h2>' +
           '<span>发布日期：' + time + '</span>' +
           '</a>'
@@ -145,8 +147,8 @@ function searchInit() {
     });
 
     // 搜索关键词
-    $('#nav-top-search').keypress(function (e) {
-      if (e.which === 13) {
+    $('#nav-top-search').keypress(function (event) {
+      if (event.which === 13) {
         $('.app-search-result').addClass('active');
         $('html').addClass('overflow-hidden');
         // todo 优化搜索 有几次搜索结果不显示
@@ -154,8 +156,8 @@ function searchInit() {
       }
     });
     // 手机关键词搜索
-    $('#mobile-search').keypress(function (e) {
-      if (e.which === 13) {
+    $('#mobile-search').keypress(function (event) {
+      if (event.which === 13) {
         $('.app-search-result').addClass('active');
         $('html').addClass('overflow-hidden');
         // todo 优化搜索 有几次搜索结果不显示
@@ -168,6 +170,15 @@ function searchInit() {
       $('#nav-top-search').val('');
       $('html').removeClass('overflow-hidden');
     });
+
+    if ($.support.pjax) {
+      $(document).on('click', 'a[search-pjax]', function(event) {
+        $.pjax.click(event, {container: '.site-warp'});
+        $('.app-search-result').removeClass('active');
+        $('#nav-top-search').val('');
+        $('html').removeClass('overflow-hidden');
+      })
+    }
   };
   if ($('#ghost-search-field').length !== 0) {
     if (typeof window.GhostSearch === 'undefined') {
