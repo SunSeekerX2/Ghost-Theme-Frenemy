@@ -106,6 +106,13 @@ function valineInit() {
     }
 
   }
+
+  if ($.support.pjax) {
+    $(document).on('click', 'a[search-pjax]', function(event) {
+      $.pjax.click(event, {container: '.site-warp'});
+      $('.app-search-result').removeClass('active');
+    })
+  }
 }
 
 /**
