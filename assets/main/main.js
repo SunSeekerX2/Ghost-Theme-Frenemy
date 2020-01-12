@@ -240,58 +240,6 @@ function watchSiteLink() {
     searchInit();
     watchSiteLink();
     createPagination();
-
-    /**
-     * Pjax业务
-     */
-    $(document).pjax(
-      'a[target!=_blank]',
-      '.site-warp',
-      {
-        timeout: 5000,
-        push: true, // 使用pushState在浏览器中添加历史记录
-        replace: false, // 替换URL地址但不添加浏览器历史记录
-        container: '.site-warp', // 被替换内容元素的CSS选择器
-        fragment: '.site-warp', // css选择器，提取ajax响应内容中指定的内容片段
-      }
-    ).on('pjax:send', function () {
-      // pjax通过链接点击已经开始之后触发
-      $('.site-warp').fadeTo(0, 0);
-    }).on('pjax:complete', function () {
-      // 无论结果如何，都在ajax响应完成后触发
-      $('.site-warp').fadeTo(500, 1);
-
-      doPjaxCompleteAction();
-    });
+    log();
   });
 })(jQuery);
-
-/**
- * 重载业务
- */
-function doPjaxCompleteAction() {
-  initPage();
-  valineInit();
-  searchInit();
-  watchSiteLink();
-  createPagination();
-  if (typeof window.Prism !== 'undefined') {
-    Prism.highlightAll(); // 语法高亮
-  }
-  if (typeof valineObject !== 'undefined') {
-    valineObject.init(Object.assign({}, valineOptions, {
-      path: window.location.pathname
-    }));
-  }
-
-  // 百度统计
-  if (typeof _hmt !== 'undefined') {
-    _hmt.push(['_trackPageview', location.pathname + location.search]);
-  }
-  // 谷歌分析
-  if (typeof ga !== 'undefined') {
-    ga('send', 'pageview', location.pathname + location.search);
-  }
-
-  log();
-}
