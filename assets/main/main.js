@@ -240,6 +240,5 @@ function watchSiteLink() {
     searchInit();
     watchSiteLink();
     createPagination();
-    log();
   });
 })(jQuery);
