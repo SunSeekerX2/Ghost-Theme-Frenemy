@@ -55,22 +55,43 @@ function css(done) {
     cssnano()
   ];
 
+  // main
   pump([
-    src('assets/main/main.scss', {sourcemaps: false}),
+    src('src/scss/main.scss', {sourcemaps: false}),
     sass().on('error', sass.logError),
     postcss(processors),
     rename({suffix: '.min'}),
-    dest('assets/main/', {sourcemaps: '.'}),
+    dest('assets/css/', {sourcemaps: '.'}),
+    livereload()
+  ], handleError(done));
+
+  // index
+  pump([
+    src('src/scss/app.scss', {sourcemaps: false}),
+    sass().on('error', sass.logError),
+    postcss(processors),
+    rename({suffix: '.min'}),
+    dest('assets/css/', {sourcemaps: '.'}),
     livereload()
   ], handleError(done));
 }
 
 function js(done) {
+  // main
   pump([
-    src('assets/main/main.js', {sourcemaps: false}),
+    src('src/js/main.js', {sourcemaps: false}),
     uglify(),
     rename({suffix: '.min'}),
-    dest('assets/main/', {sourcemaps: '.'}),
+    dest('assets/js/', {sourcemaps: '.'}),
+    livereload()
+  ], handleError(done));
+
+  // app
+  pump([
+    src('src/js/app.js', {sourcemaps: false}),
+    uglify(),
+    rename({suffix: '.min'}),
+    dest('assets/js/', {sourcemaps: '.'}),
     livereload()
   ], handleError(done));
 }
