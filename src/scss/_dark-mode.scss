@@ -5,11 +5,11 @@
  */
 
 $bg-dark-1: #080808 !default;
-$bg-dark-2: #252525 !default;
+$bg-dark-2: rgba(37, 37, 37, 1) !default;
 
 $dark-font: #b7b7b7 !default;
 
-[data-theme="dark"] {
+[data-theme='dark'] {
   background-color: $bg-dark-1;
   color: $dark-font;
 }

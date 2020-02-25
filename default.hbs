@@ -71,7 +71,7 @@
       </div>
     </footer>
     <div id="return-to-top" class="fixed-tools animated"><i class="fas fa-angle-double-up"></i></div>
-    {{> "toasts"}}
+    {{!-- {{> "toasts"}} --}}
   </div>
 
   {{!-- Ghost outputs important scripts and data with this tag - it should always be the very last thing before the closing body tag --}}
@@ -83,21 +83,8 @@
   {{!-- <script type="text/javascript" src="//cdn.jsdelivr.net/npm/jquery-pjax/jquery.pjax.min.js"></script> --}}
   <script type="text/javascript" src="{{asset "js/app.min.js?ver=191212"}}"></script>
   <script type="text/javascript" src="{{asset "js/main.min.js?ver=191212"}}"></script>
-  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/trianglify/0.2.1/trianglify.min.js"></script>
 
   {{> "search"}}
-  <script>
-
-    console.log(111)
-
-    var pattern = Trianglify({
-        width: window.innerWidth,
-        height: window.innerHeight
-    });
-
-    console.log(pattern)
-    document.body.appendChild(pattern.canvas())
-  </script>
 </body>
 
 </html>

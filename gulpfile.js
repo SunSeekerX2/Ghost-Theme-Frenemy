@@ -65,7 +65,8 @@ function css(done) {
     livereload()
   ], handleError(done));
 
-  // index
+  // app
+  
   pump([
     src('src/scss/app.scss', {sourcemaps: false}),
     sass().on('error', sass.logError),
