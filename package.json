@@ -21,7 +21,8 @@
   "license": "GNU V3",
   "scripts": {
     "dev": "gulp",
-    "ghost-start": "cd ../../../ && ghost start"
+    "ghost-start": "cd ../../../ && ghost start",
+    "build": "gulp build"
   },
   "author": {
     "name": "淮城一只猫",
