@@ -9,6 +9,8 @@
                     {{img_url feature_image size="l"}} 1000w,
                     {{img_url feature_image size="xl"}} 2000w" sizes="(max-width: 1000px) 400px, 700px"
       style="background-image: url({{img_url feature_image size="m"}})"></div>
+    {{else}}
+    {{> "post-card-image"}}
     {{/if}}
   </a>
 
