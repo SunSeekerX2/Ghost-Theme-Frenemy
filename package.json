@@ -21,7 +21,7 @@
   "license": "GNU V3",
   "scripts": {
     "dev": "gulp",
-    "ghost-start": "cd ../../../ && ghost start",
+    "serve": "gulp",
     "build": "gulp build"
   },
   "author": {

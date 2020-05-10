@@ -1,31 +1,32 @@
 <article
-  class="post-card {{post_class}} {{#unless feature_image}}no-image{{else}}{{#if @even}}align-left{{else}}align-right{{/if}}{{/unless}}">
-  <a href="{{url}}" class="post-card-image-link">
+  class="post-card {{post_class}}">
+  {{!-- class="post-card {{post_class}} {{#unless feature_image}}no-image{{else}}{{#if @even}}align-left{{else}}align-right{{/if}}{{/unless}}"> --}}
+  {{!-- <a href="{{url}}" class="post-card-image-link">
     {{#if feature_image}}
-    {{!-- This is a responsive image, it loads different sizes depending on device
-    https://medium.freecodecamp.org/a-guide-to-responsive-images-with-ready-to-use-templates-c400bd65c433 --}}
     <div class="post-card-image" srcset="{{img_url feature_image size="s"}} 300w,
                     {{img_url feature_image size="m"}} 600w,
                     {{img_url feature_image size="l"}} 1000w,
                     {{img_url feature_image size="xl"}} 2000w" sizes="(max-width: 1000px) 400px, 700px"
       style="background-image: url({{img_url feature_image size="m"}})"></div>
     {{else}}
-    {{> "post-card-image"}}
     {{/if}}
-  </a>
+  </a> --}}
 
   <div class="post-card-content">
     <header>
       <ul class="post-tags">
         {{#if primary_tag}}
         <li class="post-tag"><a href="#">{{primary_tag.name}}</a></li>
+        {{!-- <li class="post-tag">{{primary_tag.name}}</li> --}}
         {{/if}}
       </ul>
       <h3 class="post-card-title"><a href="{{url}}">{{title}}</a></h3>
     </header>
+
     <section class="post-card-excerpt">
       <p>{{excerpt words="33"}}</p>
     </section>
+
     <footer class="post-meta">
       <ul class="author-list">
         {{#foreach authors}}
