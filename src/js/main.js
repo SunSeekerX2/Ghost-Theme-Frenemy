@@ -1,10 +1,9 @@
-var ghostSearchkey = '99efee9603c92e5cd04501f069'; // 搜索key
-// var baiduTongJikey = '37d3bf3116f041cb10bd1d890e65bcfc'; // 百度统计id
+// var ghostSearchkey = '99efee9603c92e5cd04501f069'; // 搜索key
 var baiduTongJikey = '3f0d7a82297c929467637543290d6e37'; // 百度统计id
-var leancloudAppId = 'rEDT0uBB2LEdndoJ4od2SlKf-gzGzoHsz'; // leancloud 应用 appid
-var leancloudAppKey = 'lmX57j7hrYGCHROA72tBUIXq';  // leancloud 应用 appkey
+var leancloudAppId = '4zCOQmtHXSOvLlPnTV108NOw-gzGzoHsz'; // leancloud 应用 appid
+var leancloudAppKey = 'sMdusoM6SbN9tgyCCKzTIwif';  // leancloud 应用 appkey
 var leancloudServerURL = 'https://leancloud-api.iiong.com'; // leancloud 应用 Api 地址私有域名
-var googleAnalyticsId = 'UA-141063659-1'; // 谷歌分析ID
+var googleAnalyticsId = 'UA-160614210-1'; // 谷歌分析ID
 
 // key: '1c8b902ac09889962117d082e6',
 // key: '99efee9603c92e5cd04501f069',
@@ -14,7 +13,7 @@ var valineOptions = {
   el: '#vcomments',
   appId: leancloudAppId,
   appKey: leancloudAppKey,
-  serverURLs: leancloudServerURL,
+  // serverURLs: leancloudServerURL,
   notify: true,
   verify: true,
   avatar: 'mm',
@@ -238,7 +237,7 @@ function watchSiteLink() {
     });
 
     valineInit();
-    searchInit();
+    // searchInit();
     watchSiteLink();
     createPagination();
   });

@@ -7,7 +7,7 @@
 .site-warp {
   .site-main {
     margin-top: -100px;
-    margin-bottom: 35px;
+    // margin-bottom: 35px;
     position: relative;
     flex-grow: 1;
     z-index: 1;
@@ -25,14 +25,15 @@
       background: #fff;
 
       .site-post-list {
+        width: 100%;
         .post-list {
           .post-card {
             display: flex;
-            margin-bottom: 60px;
+            margin-bottom: 20px;
             position: relative;
             align-items: center;
             justify-content: space-between;
-            border-bottom: #EBF2F6 1px solid;
+            border-bottom: #ebf2f6 1px solid;
 
             &.align-right {
               right: -13%;
@@ -72,6 +73,7 @@
             .post-card-content {
               // max-width: 49%;
               max-width: 100%;
+              width: 100%;
               margin-right: -3%;
 
               .post-tags {
@@ -109,8 +111,9 @@
 
               .post-meta {
                 display: flex;
-                justify-content: space-between;
+                justify-content: flex-end;
                 align-items: center;
+                padding-bottom: 20px;
 
                 .author-list {
                   display: flex;
@@ -279,6 +282,7 @@
         .site-post-list {
           .post-list {
             .post-card {
+              border-bottom: rgb(49, 49, 49) 1px solid;
               .post-card-image-link {
                 .post-card-image {
                   box-shadow: 5px 6px 26px -3px $bg-dark-1;

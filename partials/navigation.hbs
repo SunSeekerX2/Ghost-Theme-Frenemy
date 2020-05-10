@@ -19,13 +19,13 @@
           {{/foreach}}
           {{! End the loop }}
           {{/if}}
-          <li class="nav-item m-0 d-none d-md-none d-lg-block d-xl-block">
+          {{!-- <li class="nav-item m-0 d-none d-md-none d-lg-block d-xl-block">
             <div class="site-searchbar">
               <label for="nav-top-search"></label>
               <input id="nav-top-search" class="search-input" type="text" placeholder="Search...">
               <a class="search-icon"><i class="fas fa-search"></i></a>
             </div>
-          </li>
+          </li> --}}
           <li class="nav-item d-block d-md-block d-lg-none d-xl-none">
             <div class="mobile-search">
               <div class="input-group">
@@ -34,6 +34,8 @@
               </div>
             </div>
           </li>
+          
+          {{!-- 日夜模式 --}}
           <li class="nav-item">
             <label class="dark-switch-label" for="darkSwitch">
               <a class="dark-switch-label-span" data-toggle="tooltip" data-placement="bottom" title="日夜模式">

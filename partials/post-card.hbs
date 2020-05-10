@@ -1,5 +1,4 @@
-<article
-  class="post-card {{post_class}}">
+<article class="post-card {{post_class}}">
   {{!-- class="post-card {{post_class}} {{#unless feature_image}}no-image{{else}}{{#if @even}}align-left{{else}}align-right{{/if}}{{/unless}}"> --}}
   {{!-- <a href="{{url}}" class="post-card-image-link">
     {{#if feature_image}}
@@ -16,7 +15,8 @@
     <header>
       <ul class="post-tags">
         {{#if primary_tag}}
-        <li class="post-tag"><a href="#">{{primary_tag.name}}</a></li>
+        {{!-- <li class="post-tag"><a href="tag/{{ primary_tag.name }}">{{ primary_tag.name }}</a></li> --}}
+        <li class="post-tag"><a href="javascript:;">{{primary_tag.name}}</a></li>
         {{!-- <li class="post-tag">{{primary_tag.name}}</li> --}}
         {{/if}}
       </ul>
@@ -28,7 +28,7 @@
     </section>
 
     <footer class="post-meta">
-      <ul class="author-list">
+      {{!-- <ul class="author-list">
         {{#foreach authors}}
         <li class="author-list-item">
           <a href="{{url}}" class="static-avatar">
@@ -42,8 +42,8 @@
           </a>
         </li>
         {{/foreach}}
+      </ul> --}}
 
-      </ul>
       <span class="reading-time"><i class="far fa-clock"></i>
         {{reading_time minute=(t "1分钟阅读") minutes=(t "%分钟阅读")}}</span>
     </footer>

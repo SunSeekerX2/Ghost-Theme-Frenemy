@@ -11,9 +11,13 @@
 
       .post-content {
         p {
-          font-family: PingFang SC, Lantinghei SC, Microsoft Yahei, Hiragino Sans GB, Microsoft Sans Serif, WenQuanYi Micro Hei, sans-serif;
+          font-family: PingFang SC, Lantinghei SC, Microsoft Yahei,
+            Hiragino Sans GB, Microsoft Sans Serif, WenQuanYi Micro Hei,
+            sans-serif;
           line-height: 1.6;
           font-weight: normal;
+          word-wrap: break-word;
+          word-break: break-all;
 
           a {
             border-bottom: 1px solid #000;
@@ -37,10 +41,10 @@
           }
 
           figcaption {
-            margin-top: .5rem;
+            margin-top: 0.5rem;
             text-align: center;
             font-weight: lighter;
-            color: rgba(0, 0, 0, .5);
+            color: rgba(0, 0, 0, 0.5);
             font-style: italic;
           }
         }
@@ -56,7 +60,7 @@
   }
 }
 
-[data-theme="dark"] {
+[data-theme='dark'] {
   .site-warp {
     .site-main {
       article {
@@ -78,7 +82,7 @@
 
           figure {
             figcaption {
-              color: rgba(0, 0, 0, .5);
+              color: rgba(0, 0, 0, 0.5);
             }
           }
         }

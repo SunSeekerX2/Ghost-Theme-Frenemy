@@ -2,10 +2,6 @@
   "name": "frenemy",
   "version": "1.0.2",
   "description": "",
-  "engines": {
-    "ghost": ">=2.0.0",
-    "ghost-api": "v2"
-  },
   "gpm": {
     "type": "theme",
     "categories": [
@@ -13,12 +9,6 @@
       "Magazine"
     ]
   },
-  "keywords": [
-    "ghost",
-    "theme",
-    "ghost-theme"
-  ],
-  "license": "GNU V3",
   "scripts": {
     "dev": "gulp",
     "serve": "gulp",
@@ -29,7 +19,6 @@
     "email": "i@iiong.com",
     "url": "https://iiong.com"
   },
-  "dependencies": {},
   "devDependencies": {
     "autoprefixer": "9.7.1",
     "beeper": "2.0.0",
