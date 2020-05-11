@@ -1,7 +1,29 @@
 {
   "name": "frenemy",
+  "description": "A custom theme for ghost",
+  "demo": "https://yoouu.cn/",
   "version": "1.0.2",
-  "description": "",
+  "engines": {
+    "ghost": ">=3.0.0",
+    "ghost-api": "v3"
+  },
+  "license": "MIT",
+  "screenshots": {
+    "desktop": "assets/screenshot-desktop.jpg"
+  },
+  "scripts": {
+    "dev": "gulp",
+    "serve": "gulp",
+    "zip": "gulp zip",
+    "test": "gscan .",
+    "test:ci": "gscan --fatal --verbose .",
+    "pretest": "gulp build"
+  },
+  "author": {
+    "name": "SunSeekerX",
+    "email": "1647800606@qq.com",
+    "url": "https://yoouu.cn/"
+  },
   "gpm": {
     "type": "theme",
     "categories": [
@@ -9,16 +31,23 @@
       "Magazine"
     ]
   },
-  "scripts": {
-    "dev": "gulp",
-    "serve": "gulp",
-    "build": "gulp build"
+  "keywords": [
+    "ghost",
+    "theme",
+    "ghost-theme"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SunSeekerX/Ghost-Theme-Frenemy"
   },
-  "author": {
-    "name": "淮城一只猫",
-    "email": "i@iiong.com",
-    "url": "https://iiong.com"
-  },
+  "bugs": "https://github.com/SunSeekerX/Ghost-Theme-Frenemy/issues",
+  "contributors": [
+    {
+      "name": "SunSeekerX",
+      "email": "1647800606@qq.com",
+      "url": "https://yoouu.cn/"
+    }
+  ],
   "devDependencies": {
     "autoprefixer": "9.7.1",
     "beeper": "2.0.0",
@@ -39,8 +68,7 @@
     "pump": "3.0.0"
   },
   "browserslist": [
-    "last 2 version",
-    "> 2%"
+    "defaults"
   ],
   "config": {
     "posts_per_page": 10,
