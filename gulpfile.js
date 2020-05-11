@@ -1,9 +1,17 @@
+/**
+ * @name:
+ * @author: SunSeekerX
+ * @Date: 2020-05-11 10:34:47
+ * @LastEditors: SunSeekerX
+ * @LastEditTime: 2020-05-11 14:02:41
+ */
+
 const { series, watch, src, dest, parallel } = require('gulp')
 const pump = require('pump')
 
 // gulp plugins and utils
 const livereload = require('gulp-livereload')
-const connect = require('gulp-connect')
+// const connect = require('gulp-connect')
 const postcss = require('gulp-postcss')
 const zip = require('gulp-zip')
 const uglify = require('gulp-uglify')
@@ -20,17 +28,17 @@ const easyimport = require('postcss-easy-import')
 
 function serve(done) {
   livereload.listen()
-  connect.server({
-    host: '0.0.0.0',
-    port: 2368,
-    livereload: true,
-  })
+  // connect.server({
+  //   host: '0.0.0.0',
+  //   port: 2368,
+  //   livereload: true,
+  // })
   done()
 }
 
-sass.compiler = require('node-sass')
+// sass.compiler = require('node-sass')
 
-const handleError = done => {
+const handleError = (done) => {
   return function (err) {
     if (err) {
       beeper()
@@ -45,7 +53,7 @@ function hbs(done) {
       src(['*.hbs', 'partials/**/*.hbs', '!node_modules/**/*.hbs']),
       livereload(),
     ],
-    handleError(done),
+    handleError(done)
   )
 }
 
@@ -68,11 +76,10 @@ function css(done) {
       dest('assets/css/', { sourcemaps: '.' }),
       livereload(),
     ],
-    handleError(done),
+    handleError(done)
   )
 
   // app
-
   pump(
     [
       src('src/scss/app.scss', { sourcemaps: false }),
@@ -82,7 +89,7 @@ function css(done) {
       dest('assets/css/', { sourcemaps: '.' }),
       livereload(),
     ],
-    handleError(done),
+    handleError(done)
   )
 }
 
@@ -90,25 +97,13 @@ function js(done) {
   // main
   pump(
     [
-      src('src/js/main.js', { sourcemaps: false }),
+      src('src/js/*.js', { sourcemaps: false }),
       uglify(),
       rename({ suffix: '.min' }),
       dest('assets/js/', { sourcemaps: '.' }),
       livereload(),
     ],
-    handleError(done),
-  )
-
-  // app
-  pump(
-    [
-      src('src/js/app.js', { sourcemaps: false }),
-      uglify(),
-      rename({ suffix: '.min' }),
-      dest('assets/js/', { sourcemaps: '.' }),
-      livereload(),
-    ],
-    handleError(done),
+    handleError(done)
   )
 }
 
@@ -123,16 +118,19 @@ function zipper(done) {
       zip(filename),
       dest(targetDir),
     ],
-    handleError(done),
+    handleError(done)
   )
 }
 
 // const cssWatcher = () => watch(['assets/main/main.scss'], css)
-const cssWatcher = () => watch(['src/scss/*.scss'], css)
+const cssWatcher = () => watch(['src/scss/**'], css)
 const jsWatcher = () => watch('src/js/*.js', js)
+// const hbsWatcher = () =>
+//   watch(['*.hbs', 'partials/**/*.hbs', '!node_modules/**/*.hbs'], hbs)
 const hbsWatcher = () =>
-  watch(['*.hbs', 'partials/**/*.hbs', '!node_modules/**/*.hbs'], hbs)
-const watcher = parallel(cssWatcher, jsWatcher, hbsWatcher)
+  watch(['*.hbs', '**/**/*.hbs', '!node_modules/**/*.hbs'], hbs)
+const watcher = parallel(cssWatcher, hbsWatcher)
+// const watcher = parallel(cssWatcher, jsWatcher, hbsWatcher)
 const build = series(css, js)
 const dev = series(build, serve, watcher)
 
