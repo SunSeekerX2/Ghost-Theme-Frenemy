@@ -17,7 +17,8 @@
     "zip": "gulp zip",
     "test": "gscan .",
     "test:ci": "gscan --fatal --verbose .",
-    "pretest": "gulp build"
+    "pretest": "gulp build",
+    "gc": "git add -A && git cz && git pull && git push"
   },
   "author": {
     "name": "SunSeekerX",
@@ -49,9 +50,10 @@
     }
   ],
   "devDependencies": {
-    "autoprefixer": "9.7.6",
+    "autoprefixer": "9.8.0",
     "beeper": "2.0.0",
     "cssnano": "4.1.10",
+    "cz-conventional-changelog": "3.2.0",
     "gscan": "3.5.4",
     "gulp": "4.0.2",
     "gulp-connect": "^5.7.0",
@@ -91,6 +93,9 @@
       "xl": {
         "width": 2000
       }
+    },
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
     }
   }
 }

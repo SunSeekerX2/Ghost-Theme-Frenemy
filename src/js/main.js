@@ -1,3 +1,7 @@
+import config from '../config/index'
+// const config = require('../config/index')
+console.log(config);
+
 // var ghostSearchkey = '99efee9603c92e5cd04501f069'; // 搜索key
 var baiduTongJikey = '3f0d7a82297c929467637543290d6e37'; // 百度统计id
 var leancloudAppId = '4zCOQmtHXSOvLlPnTV108NOw-gzGzoHsz'; // leancloud 应用 appid

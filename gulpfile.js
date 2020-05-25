@@ -3,11 +3,12 @@
  * @author: SunSeekerX
  * @Date: 2020-05-11 10:34:47
  * @LastEditors: SunSeekerX
- * @LastEditTime: 2020-05-11 14:02:41
+ * @LastEditTime: 2020-05-24 12:52:04
  */
 
 const { series, watch, src, dest, parallel } = require('gulp')
 const pump = require('pump')
+const jsImport = require('gulp-js-import')
 
 // gulp plugins and utils
 const livereload = require('gulp-livereload')
@@ -94,10 +95,13 @@ function css(done) {
 }
 
 function js(done) {
-  // main
   pump(
     [
       src('src/js/*.js', { sourcemaps: false }),
+      jsImport({
+        hideConsole: true,
+        importStack: true,
+      }),
       uglify(),
       rename({ suffix: '.min' }),
       dest('assets/js/', { sourcemaps: '.' }),
@@ -129,8 +133,8 @@ const jsWatcher = () => watch('src/js/*.js', js)
 //   watch(['*.hbs', 'partials/**/*.hbs', '!node_modules/**/*.hbs'], hbs)
 const hbsWatcher = () =>
   watch(['*.hbs', '**/**/*.hbs', '!node_modules/**/*.hbs'], hbs)
-const watcher = parallel(cssWatcher, hbsWatcher)
-// const watcher = parallel(cssWatcher, jsWatcher, hbsWatcher)
+// const watcher = parallel(cssWatcher, hbsWatcher)
+const watcher = parallel(cssWatcher, jsWatcher, hbsWatcher)
 const build = series(css, js)
 const dev = series(build, serve, watcher)
 
