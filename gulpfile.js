@@ -3,15 +3,18 @@
  * @author: SunSeekerX
  * @Date: 2020-05-11 10:34:47
  * @LastEditors: SunSeekerX
- * @LastEditTime: 2020-05-24 12:52:04
+ * @LastEditTime: 2020-05-28 17:41:01
  */
 
+const path = require('path')
 const { series, watch, src, dest, parallel } = require('gulp')
 const pump = require('pump')
-const jsImport = require('gulp-js-import')
 
+const NODE_ENV = process.env.NODE_ENV
+const isDev = NODE_ENV === 'development'
 // gulp plugins and utils
 const livereload = require('gulp-livereload')
+const webpack = require('webpack-stream')
 // const connect = require('gulp-connect')
 const postcss = require('gulp-postcss')
 const zip = require('gulp-zip')
@@ -97,14 +100,25 @@ function css(done) {
 function js(done) {
   pump(
     [
-      src('src/js/*.js', { sourcemaps: false }),
-      jsImport({
-        hideConsole: true,
-        importStack: true,
+      src('src/js/index.js'),
+      webpack({
+        watch: isDev ? true : false,
+        mode: NODE_ENV,
+        output: {
+          filename: '[name].min.js',
+        },
+        devtool: isDev ? 'source-map' : false,
+        resolve: {
+          // 设置别名
+          alias: {
+            // 这样配置后 @ 可以指向 src 目录
+            '@': path.resolve(__dirname, 'src'),
+          },
+        },
+        module: {},
       }),
-      uglify(),
-      rename({ suffix: '.min' }),
-      dest('assets/js/', { sourcemaps: '.' }),
+      // uglify(),
+      dest('assets/js/'),
       livereload(),
     ],
     handleError(done)

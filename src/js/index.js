@@ -1,11 +1,22 @@
-'use strict'
+/**
+ * @name:
+ * @author: SunSeekerX
+ * @Date: 2020-05-28 17:23:32
+ * @LastEditors: SunSeekerX
+ * @LastEditTime: 2020-05-28 18:15:58
+ */
+
+import config from '@/config/index'
+import { initBaiduTongji } from './Baidu'
+import { initValine } from './Comment'
+// import { loadScript } from '@/utils/index'
 var loadFiles = {
   js: [],
-  css: []
+  css: [],
 }
 
 window.pivot = {
-  init: init
+  init: init,
 }
 var _prevent_scroll = false
 function init(config) {
@@ -39,6 +50,7 @@ function init(config) {
     }
   }
 }
+
 function handleHover(target, container, config, touch) {
   var _shadow
   var _shine
@@ -46,45 +58,45 @@ function handleHover(target, container, config, touch) {
   var perspectiveProp = getProp([
     'perspective',
     'webkitPerspective',
-    'mozPerspective'
+    'mozPerspective',
   ])
   var transformStyleProp = getProp([
     'transformStyle',
     'webkitTransformStyle',
-    'mozTransformStyle'
+    'mozTransformStyle',
   ])
   var transformProp = getProp(['transform', 'webkitTransform', 'mozTransform'])
   var backfaceVisProp = getProp([
     'backfaceVisibility',
     'webkitBackfaceVisibility',
-    'mozBackfaceVisibility'
+    'mozBackfaceVisibility',
   ])
   var willChangeProp = getProp(['willChange'])
   var boxShadowProp = getProp(['boxShadow', 'webkitBoxShadow', 'mozBoxShadow'])
   var userSelectProp = getProp([
     'userSelect',
     'webkitUserSelect',
-    'mozUserSelect'
+    'mozUserSelect',
   ])
   var transitionPropertyProp = getProp([
     'transitionProperty',
     'webkitTransitionProperty',
-    'mozTransitionProperty'
+    'mozTransitionProperty',
   ])
   var transitionDurationProp = getProp([
     'transitionDuration',
     'webkitTransitionDuration',
-    'mozTransitionDuration'
+    'mozTransitionDuration',
   ])
   var transitionDelayProp = getProp([
     'transitionDelay',
     'webkitTransitionDelay',
-    'mozTransitionDelay'
+    'mozTransitionDelay',
   ])
   var transitionTimingProp = getProp([
     'transitionTimingFunction',
     'webkitTransitionTimingFunction',
-    'mozTransitionTimingFunction'
+    'mozTransitionTimingFunction',
   ])
 
   if (config.perspective && typeof config.perspective === 'number') {
@@ -208,14 +220,14 @@ function handleHover(target, container, config, touch) {
   function enter() {
     if (config.hoverClass && config.hoverInClass) {
       target.className += ' ' + config.hoverClass + ' ' + config.hoverInClass
-      setTimeout(function() {
+      setTimeout(function () {
         target.className = removeClass(target.className, config.hoverInClass)
       }, 1000)
     } else if (config.hoverClass) {
       target.className += ' ' + config.hoverClass
     } else if (config.hoverInClass) {
       target.className += ' ' + config.hoverInClass
-      setTimeout(function() {
+      setTimeout(function () {
         target.className = removeClass(target.className, config.hoverInClass)
       }, 1000)
     }
@@ -283,54 +295,55 @@ function handleHover(target, container, config, touch) {
     if (config.hoverClass && config.hoverOutClass) {
       target.className += ' ' + config.hoverOutClass
       target.className = removeClass(target.className, config.hoverClass)
-      setTimeout(function() {
+      setTimeout(function () {
         target.className = removeClass(target.className, config.hoverOutClass)
       }, 1000)
     } else if (config.hoverClass) {
       target.className = removeClass(target.className, config.hoverClass)
     } else if (config.hoverOutClass) {
       target.className += ' ' + config.hoverOutClass
-      setTimeout(function() {
+      setTimeout(function () {
         target.className = removeClass(target.className, config.hoverOutClass)
       }, 1000)
     }
   }
 
   if (touch) {
-    container.addEventListener('touchstart', function() {
+    container.addEventListener('touchstart', function () {
       if (!_prevent_scroll) {
         _prevent_scroll = true
       }
       return enter()
     })
 
-    container.addEventListener('touchmove', function(e) {
+    container.addEventListener('touchmove', function (e) {
       if (!!_prevent_scroll) {
         e.preventDefault()
       }
       return move(e)
     })
 
-    container.addEventListener('touchend', function() {
+    container.addEventListener('touchend', function () {
       if (!!_prevent_scroll) {
         window.preventScroll = false
       }
       return leave()
     })
   } else {
-    container.addEventListener('mouseenter', function() {
+    container.addEventListener('mouseenter', function () {
       return enter()
     })
 
-    container.addEventListener('mousemove', function(e) {
+    container.addEventListener('mousemove', function (e) {
       return move(e)
     })
 
-    container.addEventListener('mouseleave', function() {
+    container.addEventListener('mouseleave', function () {
       return leave()
     })
   }
 }
+
 function getProp(props) {
   var i = props.length
   var j = 0
@@ -343,6 +356,7 @@ function getProp(props) {
 
   return null
 }
+
 function getUnit(t) {
   if (typeof t !== 'number') {
     console.warn('Please provide a numeric value')
@@ -355,6 +369,7 @@ function getUnit(t) {
     return t + 's'
   }
 }
+
 function getTFunc(tf) {
   var tfl = tf.length
 
@@ -388,15 +403,17 @@ function getTFunc(tf) {
     return 'none'
   }
 }
+
 function removeClass(cssClasses, cssClass) {
   var rxp = new RegExp(cssClass + '\\s*', 'gi')
   return cssClasses
     .replace(rxp, '')
     .replace(/^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g, '')
 }
+
 function rebounce(func) {
   var scheduled, context, args, i, j
-  return function() {
+  return function () {
     context = this
     args = []
     i = arguments.length
@@ -410,7 +427,7 @@ function rebounce(func) {
       window.cancelAnimationFrame(scheduled)
     }
 
-    scheduled = window.requestAnimationFrame(function() {
+    scheduled = window.requestAnimationFrame(function () {
       func.apply(context, args)
       scheduled = null
     })
@@ -427,12 +444,12 @@ function rebounce(func) {
  */
 function loadScript(fileName, callback, into) {
   into = into || 'body'
-  callback = callback || function() {}
+  callback = callback || function () {}
   var script = null
   script = document.createElement('script')
   script.type = 'text/javascript'
   script.src = fileName
-  script.onload = function() {
+  script.onload = function () {
     loadFiles.js.push(fileName)
     callback()
   }
@@ -453,12 +470,12 @@ function loadScript(fileName, callback, into) {
  */
 function loadCSS(fileName, callback, into) {
   into = into || 'head'
-  callback = callback || function() {}
+  callback = callback || function () {}
 
   var css = document.createElement('link')
   css.type = 'text/css'
   css.rel = 'stylesheet'
-  css.onload = css.onreadystatechange = function() {
+  css.onload = css.onreadystatechange = function () {
     loadFiles.css.push(fileName)
     callback()
   }
@@ -522,15 +539,15 @@ function log() {
  * 页面初始化要执行的事件
  */
 function initPage() {
-  $(function() {
+  $(function () {
     //初始化顶栏透明
     isScrollTop() ? addTopNav() : removeTopNav()
     //滚动顶栏透明
-    $(window).scroll(function() {
+    $(window).scroll(function () {
       isScrollTop() ? addTopNav() : removeTopNav()
     })
     // 移动端点击菜单按钮添加样式
-    $('.navbar-toggler').click(function(event) {
+    $('.navbar-toggler').click(function (event) {
       if ($(this).attr('aria-expanded') === 'false') {
         if (isScrollTop()) {
           $('nav.navbar')
@@ -549,17 +566,17 @@ function initPage() {
     })
     // 回到顶部
     var returnTop = $('#return-to-top')
-    $(window).scroll(function() {
+    $(window).scroll(function () {
       if ($(this).scrollTop() >= 50) {
         returnTop.addClass('bounceInRight').removeClass('bounceOutDown')
       } else {
         returnTop.removeClass('bounceInRight').addClass('bounceOutDown')
       }
     })
-    returnTop.click(function() {
+    returnTop.click(function () {
       $('body,html').animate(
         {
-          scrollTop: 0
+          scrollTop: 0,
         },
         500
       )
@@ -572,7 +589,7 @@ function initPage() {
   pivot.init({
     selector: '.site-post-list .post-card-image-link',
     sensitivity: 80,
-    touch: false
+    touch: false,
   })
 
   if (document.querySelector('.post-content pre code') !== null) {
@@ -583,12 +600,12 @@ function initPage() {
       )
       loadScript(
         '//cdn.jsdelivr.net/npm/prismjs/components/prism-core.min.js',
-        function() {
+        function () {
           loadScript(
             '//cdn.jsdelivr.net/npm/prismjs/plugins/autoloader/prism-autoloader.min.js',
-            function() {
+            function () {
               //将html代码块支持高亮
-              $('.post-content pre code').attr('class', function(i, clazz) {
+              $('.post-content pre code').attr('class', function (i, clazz) {
                 if (clazz !== undefined) {
                   return clazz.replace(/language-html/g, 'language-markup')
                 }
@@ -628,7 +645,7 @@ function initPage() {
       )
     } else {
       //将html代码块支持高亮
-      $('.post-content pre code').attr('class', function(i, clazz) {
+      $('.post-content pre code').attr('class', function (i, clazz) {
         if (clazz !== undefined) {
           return clazz.replace(/language-html/g, 'language-markup')
         }
@@ -648,17 +665,17 @@ function initPage() {
    * 图箱支持
    */
   if ($('.post-content img').length !== 0) {
-    var initConfig = function() {
+    var initConfig = function () {
       var zoom = mediumZoom(document.querySelectorAll('.post-content img'), {
-        background: '#fff'
+        background: '#fff',
       })
-      zoom.on('open', function(event) {})
+      zoom.on('open', function (event) {})
       zoom.detach('img.kg-bookmark-icon', '.kg-bookmark-thumbnail img')
     }
     if (typeof window.mediumZoom === 'undefined') {
       loadScript(
         '//cdn.jsdelivr.net/npm/medium-zoom/dist/medium-zoom.min.js',
-        function() {
+        function () {
           initConfig()
         }
       )
@@ -673,7 +690,7 @@ function initPage() {
   var darkSwitch = document.getElementById('darkSwitch')
   if (darkSwitch) {
     initTheme()
-    darkSwitch.addEventListener('change', function(event) {
+    darkSwitch.addEventListener('change', function (event) {
       resetTheme()
     })
   }
@@ -705,10 +722,10 @@ function initPage() {
     $('#toast')
       .toast({
         autohide: true,
-        delay: 5000
+        delay: 5000,
       })
       .toast('show')
-    $('#toast .close').click(function() {
+    $('#toast .close').click(function () {
       localStorage.setItem('noPopUp', true)
     })
   } else {
@@ -717,10 +734,284 @@ function initPage() {
 }
 
 // 页面初始化执行
-$(document).ready(function() {
+$(document).ready(function () {
   initPage()
 })
 
-window.onload = function() {
+window.onload = function () {
   log()
 }
+
+// app.js
+
+// var valineOptions = {
+//   el: '#vcomments',
+//   appId: leancloudAppId,
+//   appKey: leancloudAppKey,
+//   // serverURLs: leancloudServerURL,
+//   notify: true,
+//   verify: true,
+//   avatar: 'mm',
+//   visitor: true, // 文章访问量统计
+//   highlight: true, // 代码高亮
+//   recordIP: true, // 是否记录评论者IP
+//   placeholder: '请您理智发言，共建美好社会！',
+//   path: window.location.pathname, // **请确保必须写该属性
+// }
+
+/**
+ * 分页业务 - 创建
+ */
+function createPagination() {
+  var url = window.location.href
+  var currPageElm = document.querySelector('.curr-page')
+  var totalPagesElm = document.querySelector('.total-pages')
+  if (!currPageElm || !totalPagesElm) return
+  var currentPage = Number.parseInt(currPageElm.textContent, 10)
+  var totalPages = Number.parseInt(totalPagesElm.textContent, 10)
+  var paginationElm = document.querySelector('.pagination')
+  var paginationPrev = document.querySelector('.page-item')
+  if (totalPages > 1) {
+    var paginationItems = []
+    var paginationArr = pagination(currentPage, totalPages)
+    paginationArr.forEach(function (pagElm) {
+      var urlArray = url.split('/')
+      if (pagElm === currentPage) {
+        paginationItems.push(
+          '<li class="page-item active"><span class="page-link">' +
+            pagElm +
+            '</span></li>'
+        )
+      } else if (typeof pagElm === 'number') {
+        if (urlArray[urlArray.length - 3] === 'page') {
+          url = url.replace(/\/page\/.*$/, '') + '/'
+        }
+        paginationItems.push(
+          '<li class="page-item"><a class="page-link" href="' +
+            url +
+            'page/' +
+            pagElm +
+            '/" aria-label="第' +
+            pagElm +
+            '页">' +
+            pagElm +
+            '</a></li>'
+        )
+      } else {
+        paginationItems.push(
+          '<li class="page-item ellipsis"><a class="page-link">...</a></li>'
+        )
+      }
+    })
+    if (paginationPrev !== null) {
+      currentPage === 1
+        ? paginationPrev.insertAdjacentHTML(
+            'beforebegin',
+            paginationItems.join('')
+          )
+        : paginationPrev.insertAdjacentHTML(
+            'afterend',
+            paginationItems.join('')
+          )
+    }
+  } else if (paginationElm != null) {
+    paginationElm.style.display = 'none'
+  }
+}
+/**
+ * 分页业务 - 过程
+ */
+function pagination(currentPage, pageCount) {
+  var range = []
+  var delta = 2
+  for (
+    var i = Math.max(2, currentPage - delta);
+    i <= Math.min(pageCount - 1, currentPage + delta);
+    i++
+  ) {
+    range.push(i)
+  }
+  if (currentPage - delta > 2) range.unshift('...')
+  if (currentPage + delta < pageCount - 1) range.push('...')
+  range.unshift(1)
+  range.push(pageCount)
+  return range
+}
+
+/**
+ * valine 评论支持
+ */
+function valineInit() {
+  var initConfig = function () {
+    if (document.getElementById('vcomments') !== null) {
+      new Valine(valineOptions)
+    }
+  }
+
+  if ($('#vcomments').length !== 0) {
+    if (typeof window.Valine === 'undefined') {
+      loadScript(
+        '//cdn.jsdelivr.net/npm/leancloud-storage/dist/av-min.js',
+        function () {
+          loadScript(
+            'https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js',
+            function () {
+              return initConfig()
+            }
+          )
+        }
+      )
+    } else {
+      return initConfig()
+    }
+  }
+
+  // if ($.support.pjax) {
+  //   $(document).on('click', 'a[search-pjax]', function (event) {
+  //     $.pjax.click(event, { container: '.site-warp' })
+  //     $('.app-search-result').removeClass('active')
+  //   })
+  // }
+}
+
+/**
+ * 搜索功能支持
+ */
+function searchInit() {
+  var initConfig = function () {
+    new GhostSearch({
+      host: [location.protocol, '//', location.host].join(''),
+      version: 'v3',
+      key: ghostSearchkey,
+      url: [location.protocol, '//', location.host].join(''),
+      trigger: 'focus',
+      defaultValue: '',
+      options: {
+        keys: ['title', 'published_at', 'url'],
+      },
+      api: {
+        parameters: {
+          fields: ['title', 'published_at', 'url'],
+        },
+      },
+      template: function (results) {
+        var time = dayjs(results.published_at).format('YYYY年MM月DD日')
+        return (
+          '' +
+          '<a search-pjax href="' +
+          results.url +
+          '" class="ghost-search-item">' +
+          '<h2>' +
+          results.title +
+          '</h2>' +
+          '<span>发布日期：' +
+          time +
+          '</span>' +
+          '</a>'
+        )
+      },
+      on: {
+        afterDisplay: function (result) {
+          var mate = $('.search-meta')
+          var text = mate.attr('data-no-results-text')
+          text = text.replace('[results]', result.total)
+          mate.text(text).show()
+        },
+      },
+    })
+
+    // 搜索关键词
+    $('#nav-top-search').keypress(function (event) {
+      if (event.which === 13) {
+        $('.app-search-result').addClass('active')
+        $('html').addClass('overflow-hidden')
+        // todo 优化搜索 有几次搜索结果不显示
+        $('#ghost-search-field').val($(this).val()).focus()
+      }
+    })
+    // 手机关键词搜索
+    $('#mobile-search').keypress(function (event) {
+      if (event.which === 13) {
+        $('.app-search-result').addClass('active')
+        $('html').addClass('overflow-hidden')
+        // todo 优化搜索 有几次搜索结果不显示
+        $('#ghost-search-field').val($(this).val()).focus()
+      }
+    })
+
+    $('.search-close').click(function () {
+      $('.app-search-result').removeClass('active')
+      $('#nav-top-search').val('')
+      $('html').removeClass('overflow-hidden')
+    })
+
+    if ($.support.pjax) {
+      $(document).on('click', 'a[search-pjax]', function (event) {
+        $.pjax.click(event, { container: '.site-warp' })
+        $('.app-search-result').removeClass('active')
+        $('#nav-top-search').val('')
+        $('html').removeClass('overflow-hidden')
+      })
+    }
+  }
+  if ($('#ghost-search-field').length !== 0) {
+    if (typeof window.GhostSearch === 'undefined') {
+      loadScript(
+        '//cdn.jsdelivr.net/npm/@tryghost/content-api/umd/content-api.min.js',
+        function () {
+          loadScript(
+            '//cdn.jsdelivr.net/npm/ghost-search/dist/ghost-search.min.js',
+            function () {
+              loadScript(
+                '//cdn.jsdelivr.net/npm/dayjs/dayjs.min.js',
+                function () {
+                  initConfig()
+                }
+              )
+            }
+          )
+        }
+      )
+    } else {
+      initConfig()
+    }
+  }
+}
+
+/**
+ * 监听点击链接时间，非本站链接进行新标签打开
+ */
+function watchSiteLink() {
+  $(document).on('click', 'a', function (event) {
+    var link = event.target.href // 完整链接
+    var host = event.target.hostname
+    if (
+      /^https?:\/\/(([a-zA-Z0-9_-])+(\.)?)*(:\d+)?(\/((\.)?(\?)?=?&?[a-zA-Z0-9_-](\?)?)*)*$/i.test(
+        link
+      )
+    ) {
+      if (host !== window.location.hostname) {
+        event.preventDefault()
+        window.open(event.target.href)
+      }
+    }
+  })
+}
+
+// 百度统计
+if (config.baiduTongji) {
+  initBaiduTongji()
+}
+// 评论
+if(config.valineOptions){
+  initValine(config.valineOptions)
+}
+
+;(function ($) {
+  $(document).ready(function () {
+    // valineInit()
+    // searchInit();
+    watchSiteLink()
+    createPagination()
+  })
+})(jQuery)
