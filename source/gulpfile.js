@@ -3,33 +3,25 @@
  * @author: SunSeekerX
  * @Date: 2020-05-11 10:34:47
  * @LastEditors: SunSeekerX
- * @LastEditTime: 2020-05-29 16:10:43
+ * @LastEditTime: 2020-05-29 16:04:49
  */
 
-/**
- * @name 引入node核心模块
- */
-const fs = require('fs')
 const path = require('path')
-
-/**
- * @name 引入依赖
- */
 const { series, watch, src, dest, parallel } = require('gulp')
 const pump = require('pump')
+
+const NODE_ENV = process.env.NODE_ENV
+const isDev = NODE_ENV === 'development'
+// gulp plugins and utils
 const livereload = require('gulp-livereload')
 const webpack = require('webpack-stream')
+// const connect = require('gulp-connect')
 const postcss = require('gulp-postcss')
 const zip = require('gulp-zip')
 const uglify = require('gulp-uglify')
 const beeper = require('beeper')
 const rename = require('gulp-rename')
 const sass = require('gulp-sass')
-// const connect = require('gulp-connect')
-
-const NODE_ENV = process.env.NODE_ENV
-const isDev = NODE_ENV === 'development'
-// gulp plugins and utils
 
 // postcss plugins
 const autoprefixer = require('autoprefixer')
@@ -162,9 +154,9 @@ function move(done) {
   )
 }
 
-function replace() {
-  console.log('替换文件')
-  return Promise.resolve('the value is ignored')
+function replace(){
+  console.log('替换文件');
+  return Promise.resolve('the value is ignored');
 }
 
 function zipper(done) {
@@ -214,4 +206,5 @@ const dev = series(build, serve, watcher)
 exports.default = dev
 exports.build = build
 exports.zip = series(build, zipper)
-exports.test = series(build, move, replace, zipper)
+exports.test = series(build,move, replace, zipper)
+
