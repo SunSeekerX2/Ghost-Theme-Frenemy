@@ -1,19 +1,15 @@
 /**
- * @name:
+ * @name: 
  * @author: SunSeekerX
  * @Date: 2020-05-28 17:23:32
  * @LastEditors: SunSeekerX
- * @LastEditTime: 2020-05-28 18:15:58
+ * @LastEditTime: 2020-05-29 15:00:19
  */
 
 import config from '@/config/index'
 import { initBaiduTongji } from './Baidu'
 import { initValine } from './Comment'
-// import { loadScript } from '@/utils/index'
-var loadFiles = {
-  js: [],
-  css: [],
-}
+import { loadScript, loadCSS, logDynamicLoadFiles } from '@/js/utils/index'
 
 window.pivot = {
   init: init,
@@ -411,82 +407,6 @@ function removeClass(cssClasses, cssClass) {
     .replace(/^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g, '')
 }
 
-function rebounce(func) {
-  var scheduled, context, args, i, j
-  return function () {
-    context = this
-    args = []
-    i = arguments.length
-    j = 0
-
-    for (; j < i; ++j) {
-      args[j] = arguments[j]
-    }
-
-    if (!!scheduled) {
-      window.cancelAnimationFrame(scheduled)
-    }
-
-    scheduled = window.requestAnimationFrame(function () {
-      func.apply(context, args)
-      scheduled = null
-    })
-  }
-}
-
-/**
- * 动态加载JS文件的方法
- * Load javascript file method
- *
- * @param {String}   fileName              JS文件名
- * @param {Function} [callback=function()] 加载成功后执行的回调函数
- * @param {String}   [into='head']         嵌入页面的位置
- */
-function loadScript(fileName, callback, into) {
-  into = into || 'body'
-  callback = callback || function () {}
-  var script = null
-  script = document.createElement('script')
-  script.type = 'text/javascript'
-  script.src = fileName
-  script.onload = function () {
-    loadFiles.js.push(fileName)
-    callback()
-  }
-  if (into === 'head') {
-    document.getElementsByTagName('head')[0].appendChild(script)
-  } else {
-    document.body.appendChild(script)
-  }
-}
-
-/**
- * 动态加载CSS文件的方法
- * Load css file method
- *
- * @param {String}   fileName              CSS文件名
- * @param {Function} [callback=function()] 加载成功后执行的回调函数
- * @param {String}   [into='head']         嵌入页面的位置
- */
-function loadCSS(fileName, callback, into) {
-  into = into || 'head'
-  callback = callback || function () {}
-
-  var css = document.createElement('link')
-  css.type = 'text/css'
-  css.rel = 'stylesheet'
-  css.onload = css.onreadystatechange = function () {
-    loadFiles.css.push(fileName)
-    callback()
-  }
-  css.href = fileName
-  if (into === 'head') {
-    document.getElementsByTagName('head')[0].appendChild(css)
-  } else {
-    document.body.appendChild(css)
-  }
-}
-
 /**
  * 日夜模式 - 加载
  */
@@ -529,10 +449,6 @@ function resetTheme() {
  */
 function isScrollTop() {
   return $(document).scrollTop() <= 0
-}
-
-function log() {
-  console.log('已经动态加载资源：', loadFiles)
 }
 
 /**
@@ -738,27 +654,26 @@ $(document).ready(function () {
   initPage()
 })
 
-window.onload = function () {
-  log()
-}
-
 // app.js
-
-// var valineOptions = {
-//   el: '#vcomments',
-//   appId: leancloudAppId,
-//   appKey: leancloudAppKey,
-//   // serverURLs: leancloudServerURL,
-//   notify: true,
-//   verify: true,
-//   avatar: 'mm',
-//   visitor: true, // 文章访问量统计
-//   highlight: true, // 代码高亮
-//   recordIP: true, // 是否记录评论者IP
-//   placeholder: '请您理智发言，共建美好社会！',
-//   path: window.location.pathname, // **请确保必须写该属性
-// }
-
+/**
+ * 分页业务 - 过程
+ */
+function pagination(currentPage, pageCount) {
+  var range = []
+  var delta = 2
+  for (
+    var i = Math.max(2, currentPage - delta);
+    i <= Math.min(pageCount - 1, currentPage + delta);
+    i++
+  ) {
+    range.push(i)
+  }
+  if (currentPage - delta > 2) range.unshift('...')
+  if (currentPage + delta < pageCount - 1) range.push('...')
+  range.unshift(1)
+  range.push(pageCount)
+  return range
+}
 /**
  * 分页业务 - 创建
  */
@@ -818,165 +733,6 @@ function createPagination() {
     paginationElm.style.display = 'none'
   }
 }
-/**
- * 分页业务 - 过程
- */
-function pagination(currentPage, pageCount) {
-  var range = []
-  var delta = 2
-  for (
-    var i = Math.max(2, currentPage - delta);
-    i <= Math.min(pageCount - 1, currentPage + delta);
-    i++
-  ) {
-    range.push(i)
-  }
-  if (currentPage - delta > 2) range.unshift('...')
-  if (currentPage + delta < pageCount - 1) range.push('...')
-  range.unshift(1)
-  range.push(pageCount)
-  return range
-}
-
-/**
- * valine 评论支持
- */
-function valineInit() {
-  var initConfig = function () {
-    if (document.getElementById('vcomments') !== null) {
-      new Valine(valineOptions)
-    }
-  }
-
-  if ($('#vcomments').length !== 0) {
-    if (typeof window.Valine === 'undefined') {
-      loadScript(
-        '//cdn.jsdelivr.net/npm/leancloud-storage/dist/av-min.js',
-        function () {
-          loadScript(
-            'https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js',
-            function () {
-              return initConfig()
-            }
-          )
-        }
-      )
-    } else {
-      return initConfig()
-    }
-  }
-
-  // if ($.support.pjax) {
-  //   $(document).on('click', 'a[search-pjax]', function (event) {
-  //     $.pjax.click(event, { container: '.site-warp' })
-  //     $('.app-search-result').removeClass('active')
-  //   })
-  // }
-}
-
-/**
- * 搜索功能支持
- */
-function searchInit() {
-  var initConfig = function () {
-    new GhostSearch({
-      host: [location.protocol, '//', location.host].join(''),
-      version: 'v3',
-      key: ghostSearchkey,
-      url: [location.protocol, '//', location.host].join(''),
-      trigger: 'focus',
-      defaultValue: '',
-      options: {
-        keys: ['title', 'published_at', 'url'],
-      },
-      api: {
-        parameters: {
-          fields: ['title', 'published_at', 'url'],
-        },
-      },
-      template: function (results) {
-        var time = dayjs(results.published_at).format('YYYY年MM月DD日')
-        return (
-          '' +
-          '<a search-pjax href="' +
-          results.url +
-          '" class="ghost-search-item">' +
-          '<h2>' +
-          results.title +
-          '</h2>' +
-          '<span>发布日期：' +
-          time +
-          '</span>' +
-          '</a>'
-        )
-      },
-      on: {
-        afterDisplay: function (result) {
-          var mate = $('.search-meta')
-          var text = mate.attr('data-no-results-text')
-          text = text.replace('[results]', result.total)
-          mate.text(text).show()
-        },
-      },
-    })
-
-    // 搜索关键词
-    $('#nav-top-search').keypress(function (event) {
-      if (event.which === 13) {
-        $('.app-search-result').addClass('active')
-        $('html').addClass('overflow-hidden')
-        // todo 优化搜索 有几次搜索结果不显示
-        $('#ghost-search-field').val($(this).val()).focus()
-      }
-    })
-    // 手机关键词搜索
-    $('#mobile-search').keypress(function (event) {
-      if (event.which === 13) {
-        $('.app-search-result').addClass('active')
-        $('html').addClass('overflow-hidden')
-        // todo 优化搜索 有几次搜索结果不显示
-        $('#ghost-search-field').val($(this).val()).focus()
-      }
-    })
-
-    $('.search-close').click(function () {
-      $('.app-search-result').removeClass('active')
-      $('#nav-top-search').val('')
-      $('html').removeClass('overflow-hidden')
-    })
-
-    if ($.support.pjax) {
-      $(document).on('click', 'a[search-pjax]', function (event) {
-        $.pjax.click(event, { container: '.site-warp' })
-        $('.app-search-result').removeClass('active')
-        $('#nav-top-search').val('')
-        $('html').removeClass('overflow-hidden')
-      })
-    }
-  }
-  if ($('#ghost-search-field').length !== 0) {
-    if (typeof window.GhostSearch === 'undefined') {
-      loadScript(
-        '//cdn.jsdelivr.net/npm/@tryghost/content-api/umd/content-api.min.js',
-        function () {
-          loadScript(
-            '//cdn.jsdelivr.net/npm/ghost-search/dist/ghost-search.min.js',
-            function () {
-              loadScript(
-                '//cdn.jsdelivr.net/npm/dayjs/dayjs.min.js',
-                function () {
-                  initConfig()
-                }
-              )
-            }
-          )
-        }
-      )
-    } else {
-      initConfig()
-    }
-  }
-}
 
 /**
  * 监听点击链接时间，非本站链接进行新标签打开
@@ -998,19 +754,21 @@ function watchSiteLink() {
   })
 }
 
-// 百度统计
-if (config.baiduTongji) {
-  initBaiduTongji()
+// 打印动态加载的资源
+window.onload = function () {
+  logDynamicLoadFiles()
 }
-// 评论
-if(config.valineOptions){
-  initValine(config.valineOptions)
-}
-
 ;(function ($) {
   $(document).ready(function () {
-    // valineInit()
-    // searchInit();
+    // 百度统计
+    if (config.baiduTongji) {
+      initBaiduTongji()
+    }
+    // 评论
+    if (config.valineOptions) {
+      initValine(config.valineOptions)
+    }
+    // 监听点击链接时间，非本站链接进行新标签打开
     watchSiteLink()
     createPagination()
   })

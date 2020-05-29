@@ -3,10 +3,10 @@
  * @author: SunSeekerX
  * @Date: 2020-05-28 18:05:10
  * @LastEditors: SunSeekerX
- * @LastEditTime: 2020-05-28 18:13:55
+ * @LastEditTime: 2020-05-29 13:55:11
  */
 
-import { loadScript } from '@/utils/index'
+import { loadScript } from '@/js/utils/index'
 
 /**
  * @name 初始化Valine
@@ -14,17 +14,9 @@ import { loadScript } from '@/utils/index'
 export function initValine(valineOptions) {
   if ($('#vcomments').length !== 0) {
     if (typeof window.Valine === 'undefined') {
-      loadScript(
-        '//cdn.jsdelivr.net/npm/leancloud-storage/dist/av-min.js',
-        function () {
-          loadScript(
-            'https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js',
-            function () {
-              new Valine(valineOptions)
-            }
-          )
-        }
-      )
+      loadScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+        new Valine(valineOptions)
+      })
     } else {
       new Valine(valineOptions)
     }

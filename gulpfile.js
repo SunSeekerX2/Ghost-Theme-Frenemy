@@ -3,7 +3,7 @@
  * @author: SunSeekerX
  * @Date: 2020-05-11 10:34:47
  * @LastEditors: SunSeekerX
- * @LastEditTime: 2020-05-28 17:41:01
+ * @LastEditTime: 2020-05-29 15:34:39
  */
 
 const path = require('path')
@@ -115,7 +115,15 @@ function js(done) {
             '@': path.resolve(__dirname, 'src'),
           },
         },
-        module: {},
+        module: {
+          rules: [
+            {
+              test: /\.js$/, // 处理以.js结尾的文件
+              exclude: /node_modules/, // 处理除了nodde_modules里的js文件
+              loader: 'babel-loader', // 用babel-loader处理
+            },
+          ],
+        },
       }),
       // uglify(),
       dest('assets/js/'),
@@ -125,6 +133,10 @@ function js(done) {
   )
 }
 
+function move(){
+  
+}
+
 function zipper(done) {
   const targetDir = 'dist/'
   const themeName = require('./package.json').name
@@ -132,12 +144,25 @@ function zipper(done) {
 
   pump(
     [
-      src(['**', '!node_modules', '!node_modules/**', '!dist', '!dist/**']),
+      src(['**', '!node_modules', '!node_modules/**', '!dist', '!dist/**', '!src', '!src/**']),
       zip(filename),
       dest(targetDir),
     ],
     handleError(done)
   )
+
+  console.log('>>>>>>>>>>>>>>>>>>>>>');
+
+  // pump(
+  //   [
+  //     src(['**', '!node_modules', '!node_modules/**', '!dist', '!dist/**', '!src', '!src/**']),
+  //     zip(filename),
+  //     dest(targetDir),
+  //   ],
+  //   handleError(done)
+  // )
+
+ 
 }
 
 // const cssWatcher = () => watch(['assets/main/main.scss'], css)
