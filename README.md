@@ -8,7 +8,7 @@
 
 预览：[https://yoouu.cn/](https://yoouu.cn/)
 
-![Ghost Theme Frenemy](./assets/screenshot-desktop.jpg)
+![Ghost Theme Frenemy](./assets/Ghost Theme Frenemy.png)
 
 
 
