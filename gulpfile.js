@@ -3,7 +3,7 @@
  * @author: SunSeekerX
  * @Date: 2020-05-11 10:34:47
  * @LastEditors: SunSeekerX
- * @LastEditTime: 2020-05-31 12:53:07
+ * @LastEditTime: 2020-05-31 16:02:11
  */
 
 /**
@@ -197,11 +197,11 @@ function replaceSource() {
 
 // 打包主题为zip
 function zipperSouce(done) {
-  const targetDir = 'dist/'
   const themeName = require('./package.json').name
-  const filename = themeName + '.zip'
+  const themeVersion = require('./package.json').version
+  const filename = `${themeName}-${themeVersion}.zip`
 
-  pump([src(['source/**']), zip(filename), dest(targetDir)], handleError(done))
+  pump([src(['source/**']), zip(filename), dest('dist/')], handleError(done))
 }
 
 function zipper(done) {
