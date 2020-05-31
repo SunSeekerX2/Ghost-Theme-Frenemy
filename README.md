@@ -8,7 +8,7 @@
 
 预览：[https://yoouu.cn/](https://yoouu.cn/)
 
-![Ghost Theme Frenemy](./assets/Ghost Theme Frenemy.png)
+![Ghost Theme Frenemy](./assets/screenshot-desktop.jpg)
 
 
 
@@ -123,12 +123,16 @@ module.exports = {
 项目根目录下执行
 
 ```bash
-yarn build:source
+yarn build
 # or npm
-npm run build:source
+npm run build
 ```
 
 
+
+### 上传主题
+
+打包之后的文件位于`${app}/dist/frenemy.zip`，通过`ghost`后台上传即可。
 
 
 

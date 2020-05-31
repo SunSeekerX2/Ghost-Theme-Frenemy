@@ -13,8 +13,8 @@
   },
   "scripts": {
     "serve": "cross-env NODE_ENV=development gulp",
-    "build": "cross-env NODE_ENV=production gulp build",
-    "build:source": "cross-env NODE_ENV=production gulp buildSource",
+    "build": "cross-env NODE_ENV=production gulp buildSource",
+    "build:static": "cross-env NODE_ENV=production gulp build",
     "zip": "cross-env NODE_ENV=production gulp zip",
     "test": "gscan .",
     "test:ci": "gscan --fatal --verbose .",
