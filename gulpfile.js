@@ -3,7 +3,7 @@
  * @author: SunSeekerX
  * @Date: 2020-05-11 10:34:47
  * @LastEditors: SunSeekerX
- * @LastEditTime: 2020-05-29 16:10:43
+ * @LastEditTime: 2020-05-31 12:15:35
  */
 
 /**
@@ -25,6 +25,7 @@ const uglify = require('gulp-uglify')
 const beeper = require('beeper')
 const rename = require('gulp-rename')
 const sass = require('gulp-sass')
+const del = require('del')
 // const connect = require('gulp-connect')
 
 const NODE_ENV = process.env.NODE_ENV
@@ -37,6 +38,11 @@ const colorFunction = require('postcss-color-function')
 const cssnano = require('cssnano')
 const customProperties = require('postcss-custom-properties')
 const easyimport = require('postcss-easy-import')
+
+/**
+ * @name 引入配置文件
+ */
+const buildConfig = require('./src/config/build')
 
 function serve(done) {
   livereload.listen()
@@ -141,8 +147,18 @@ function js(done) {
   )
 }
 
-// 移动文件替换hbs静态内容，准备zip
-function move(done) {
+function deleteSource() {
+  return del([
+    'source',
+    // 这里我们使用一个通配模式来匹配 `mobile` 文件夹中的所有东西
+    // 'dist/mobile/**/*',
+    // // 我们不希望删掉这个文件，所以我们取反这个匹配模式
+    // '!dist/mobile/deploy.json',
+  ])
+}
+
+// 移动文件替换hbs静态内容，准备替换文件内容
+function moveToSource(done) {
   pump(
     [
       // 准备需要移动的文件
@@ -154,18 +170,59 @@ function move(done) {
         '!dist/**',
         '!src',
         '!src/**',
+        '!source',
+        '!source/**',
+        '!gulpfile.js',
       ]),
       // 移动
-      dest('source'),
+      dest('./source'),
     ],
     handleError(done)
   )
 }
 
-function replace() {
+function replaceSource() {
   console.log('替换文件')
+  try {
+    // 备案信息
+    const data = fs.readFileSync('./source/default.hbs', 'utf8')
+    const res = data.replace('$siteRecord.name$', buildConfig.record.siteRecord.name)
+
+    // 写入文件
+    fs.writeFileSync('./source/default.hbs', res, 'utf8')
+  } catch (error) {
+    console.log('文件操作出错>>>', error)
+  }
+
   return Promise.resolve('the value is ignored')
 }
+
+function zipperSouce(done) {
+  const targetDir = 'dist/'
+  const themeName = require('./package.json').name
+  const filename = themeName + '.zip'
+
+  pump(
+    [
+      src([
+       'source/**'
+      ]),
+      zip(filename),
+      dest(targetDir),
+    ],
+    handleError(done)
+  )
+
+  // pump(
+  //   [
+  //     src(['**', '!node_modules', '!node_modules/**', '!dist', '!dist/**', '!src', '!src/**']),
+  //     zip(filename),
+  //     dest(targetDir),
+  //   ],
+  //   handleError(done)
+  // )
+}
+
 
 function zipper(done) {
   const targetDir = 'dist/'
@@ -214,4 +271,5 @@ const dev = series(build, serve, watcher)
 exports.default = dev
 exports.build = build
 exports.zip = series(build, zipper)
-exports.test = series(build, move, replace, zipper)
+// 打包主题
+exports.buildSource = series(build, deleteSource, moveToSource, replaceSource, zipperSouce)

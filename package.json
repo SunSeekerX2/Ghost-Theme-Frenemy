@@ -14,8 +14,8 @@
   "scripts": {
     "serve": "cross-env NODE_ENV=development gulp",
     "build": "cross-env NODE_ENV=production gulp build",
+    "build:source": "cross-env NODE_ENV=production gulp buildSource",
     "zip": "cross-env NODE_ENV=production gulp zip",
-    "test:gulp": "cross-env NODE_ENV=production gulp test",
     "test": "gscan .",
     "test:ci": "gscan --fatal --verbose .",
     "pretest": "gulp build",
@@ -52,7 +52,7 @@
   ],
   "dependencies": {},
   "devDependencies": {
-    "@babel/core": "^7.10.1",
+    "@babel/core": "^7.10.2",
     "autoprefixer": "9.8.0",
     "babel-core": "^6.26.3",
     "babel-loader": "^8.1.0",
@@ -61,6 +61,7 @@
     "cross-env": "^7.0.2",
     "cssnano": "4.1.10",
     "cz-conventional-changelog": "3.2.0",
+    "del": "^5.1.0",
     "gscan": "3.5.4",
     "gulp": "4.0.2",
     "gulp-connect": "^5.7.0",

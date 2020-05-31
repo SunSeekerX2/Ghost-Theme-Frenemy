@@ -1,9 +1,9 @@
 /**
- * @name: 主题全部配置
+ * @name: 主题配置，运行环境，浏览器
  * @author: SunSeekerX
  * @Date: 2020-05-24 12:24:52
  * @LastEditors: SunSeekerX
- * @LastEditTime: 2020-05-29 14:51:25
+ * @LastEditTime: 2020-05-31 12:43:44
  */
 
 export default {
@@ -35,26 +35,5 @@ export default {
     highlight: true,
     // 是否记录评论者IP
     recordIP: true,
-  },
-
-  /**
-   * @name 备案信息
-   */
-  record: {
-    // 网站备案信息
-    siteRecord: {
-      // 信息
-      name: '湘ICP备19015624号',
-      // 网站备案查询地址：以下为默认
-      url: 'http://beian.miit.gov.cn/',
-    },
-
-    // 公安备案信息
-    publicRecord: {
-      // 信息
-      name: '',
-      // 地址
-      url: '',
-    },
   },
 }
