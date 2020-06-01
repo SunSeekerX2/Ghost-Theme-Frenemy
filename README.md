@@ -134,6 +134,10 @@ npm run build
 
 打包之后的文件位于`${app}/dist/frenemy.zip`，通过`ghost`后台上传即可。
 
+> ps：如果上传发生`Failed to read zip file`错误，自行压缩下生成的`${app}/source`目录下所有文件为zip上传即可。
+>
+> 应该是gulp-zip打包的问题。
+
 
 
 ## 开发

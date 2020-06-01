@@ -3,7 +3,7 @@
  * @author: SunSeekerX
  * @Date: 2020-05-11 10:34:47
  * @LastEditors: SunSeekerX
- * @LastEditTime: 2020-05-31 16:02:11
+ * @LastEditTime: 2020-06-01 10:15:52
  */
 
 /**
@@ -170,7 +170,7 @@ function moveToSource(done) {
         '!src/**',
         '!source',
         '!source/**',
-        '!gulpfile.js',
+        // '!gulpfile.js',
       ]),
       dest('./source'),
     ],
@@ -192,14 +192,14 @@ function replaceSource() {
     console.log('文件操作出错>>>', error)
   }
 
-  return Promise.resolve('the value is ignored')
+  return Promise.resolve()
 }
 
 // 打包主题为zip
 function zipperSouce(done) {
-  const themeName = require('./package.json').name
-  const themeVersion = require('./package.json').version
-  const filename = `${themeName}-${themeVersion}.zip`
+  const { name, version } = require('./package.json')
+
+  const filename = `${name}-${version}.zip`
 
   pump([src(['source/**']), zip(filename), dest('dist/')], handleError(done))
 }
@@ -225,15 +225,31 @@ function zipper(done) {
     ],
     handleError(done)
   )
+}
 
-  // pump(
-  //   [
-  //     src(['**', '!node_modules', '!node_modules/**', '!dist', '!dist/**', '!src', '!src/**']),
-  //     zip(filename),
-  //     dest(targetDir),
-  //   ],
-  //   handleError(done)
-  // )
+function testZipper(done) {
+  const { name, version } = require('./package.json')
+  
+  const filename = `${name}-${version}.zip`
+
+  pump(
+    [
+      src([
+        '**',
+        '!node_modules',
+        '!node_modules/**',
+        '!dist',
+        '!dist/**',
+        '!src',
+        '!src/**',
+        '!source',
+        '!source/**',
+      ]),
+      zip(filename),
+      dest('dist/'),
+    ],
+    handleError(done)
+  )
 }
 
 const cssWatcher = () => watch(['src/scss/**'], css)
@@ -245,8 +261,9 @@ const build = series(css, js)
 const dev = series(build, serve, watcher)
 
 exports.default = dev
-exports.build = build
 exports.zip = series(build, zipper)
+exports.build = build
+exports.test = series(build, testZipper)
 exports.buildSource = series(
   build,
   deleteSource,
