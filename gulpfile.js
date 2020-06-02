@@ -3,7 +3,7 @@
  * @author: SunSeekerX
  * @Date: 2020-05-11 10:34:47
  * @LastEditors: SunSeekerX
- * @LastEditTime: 2020-06-01 10:15:52
+ * @LastEditTime: 2020-06-02 22:19:36
  */
 
 /**
@@ -18,7 +18,6 @@ const path = require('path')
  */
 const { series, watch, src, dest, parallel } = require('gulp')
 const pump = require('pump')
-const livereload = require('gulp-livereload')
 const webpack = require('webpack-stream')
 const postcss = require('gulp-postcss')
 const zip = require('gulp-zip')
@@ -44,16 +43,6 @@ const easyimport = require('postcss-easy-import')
  */
 const buildConfig = require('./src/config/build')
 
-function serve(done) {
-  livereload.listen()
-  // connect.server({
-  //   host: '0.0.0.0',
-  //   port: 2368,
-  //   livereload: true,
-  // })
-  done()
-}
-
 const handleError = (done) => {
   return function (err) {
     if (err) {
@@ -65,10 +54,7 @@ const handleError = (done) => {
 
 function hbs(done) {
   pump(
-    [
-      src(['*.hbs', 'partials/**/*.hbs', '!node_modules/**/*.hbs']),
-      livereload(),
-    ],
+    [src(['*.hbs', 'partials/**/*.hbs', '!node_modules/**/*.hbs'])],
     handleError(done)
   )
 }
@@ -90,7 +76,6 @@ function css(done) {
       postcss(processors),
       rename({ suffix: '.min' }),
       dest('assets/css/', { sourcemaps: '.' }),
-      livereload(),
     ],
     handleError(done)
   )
@@ -103,7 +88,6 @@ function css(done) {
       postcss(processors),
       rename({ suffix: '.min' }),
       dest('assets/css/', { sourcemaps: '.' }),
-      livereload(),
     ],
     handleError(done)
   )
@@ -139,7 +123,6 @@ function js(done) {
       }),
       // uglify(),
       dest('assets/js/'),
-      livereload(),
     ],
     handleError(done)
   )
@@ -229,7 +212,7 @@ function zipper(done) {
 
 function testZipper(done) {
   const { name, version } = require('./package.json')
-  
+
   const filename = `${name}-${version}.zip`
 
   pump(
@@ -256,11 +239,12 @@ const cssWatcher = () => watch(['src/scss/**'], css)
 const jsWatcher = () => watch('src/js/*.js', js)
 const hbsWatcher = () =>
   watch(['*.hbs', '**/**/*.hbs', '!node_modules/**/*.hbs'], hbs)
+  
 const watcher = parallel(cssWatcher, jsWatcher, hbsWatcher)
 const build = series(css, js)
-const dev = series(build, serve, watcher)
+const dev = series(watcher, build)
 
-exports.default = dev
+exports.dev = dev
 exports.zip = series(build, zipper)
 exports.build = build
 exports.test = series(build, testZipper)

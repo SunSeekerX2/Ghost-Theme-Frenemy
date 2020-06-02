@@ -12,7 +12,7 @@
     "desktop": "assets/screenshot-desktop.jpg"
   },
   "scripts": {
-    "serve": "cross-env NODE_ENV=development gulp",
+    "serve": "cross-env NODE_ENV=development gulp dev",
     "build": "cross-env NODE_ENV=production gulp buildSource",
     "build:static": "cross-env NODE_ENV=production gulp build",
     "build:test": "cross-env NODE_ENV=production gulp test",
@@ -66,7 +66,6 @@
     "gscan": "3.5.4",
     "gulp": "4.0.2",
     "gulp-connect": "^5.7.0",
-    "gulp-livereload": "4.0.2",
     "gulp-postcss": "8.0.0",
     "gulp-rename": "^2.0.0",
     "gulp-sass": "^4.1.0",
