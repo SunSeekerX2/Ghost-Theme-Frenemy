@@ -24,4 +24,7 @@ projectFilesBackup
 dist/
 # another files
 source
+assets/js/*
+assets/css/*
+
 

@@ -1,0 +1,19 @@
+.container {
+  box-sizing: border-box;
+  padding: 12px;
+  background-color: #FFFFFF;
+}
+
+h1,
+p {
+  color: #333333;
+}
+
+p {
+  /* font-weight: 600; */
+  font-size: 24px;
+}
+
+span {
+  color: #A9A9A9;
+}

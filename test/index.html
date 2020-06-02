@@ -1,0 +1,104 @@
+<!--
+ * @name: 
+ * @author: SunSeekerX
+ * @Date: 2020-06-02 22:46:52
+ * @LastEditors: SunSeekerX
+ * @LastEditTime: 2020-06-02 23:16:35
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <!-- <link href="reset.css" rel="stylesheet" type="text/css"> -->
+
+  <link href="default.css" rel="stylesheet" type="text/css" title="默认">
+  <link href="red.css" rel="alternate stylesheet" type="text/css" title="红色">
+  <link href="green.css" rel="alternate stylesheet" type="text/css" title="绿色">
+
+  <div class="box">
+    <img src="./book.jpg">
+    <p>背景色是？文字颜色是？</p>
+  </div>
+  <p>
+    选择样式：
+    <input id="default" type="radio" name="skin" value="default.css" checked><label for="default">默认</label>
+    <input id="red" type="radio" name="skin" value="red.css"><label for="red">红色</label>
+    <input id="green" type="radio" name="skin" value="green.css"><label for="green">绿色</label>
+  </p>
+  <script>
+    document.ready = function (callback) {
+      ///兼容FF,Google
+      if (document.addEventListener) {
+        document.addEventListener('DOMContentLoaded', function () {
+          document.removeEventListener('DOMContentLoaded', arguments.callee, false);
+          callback();
+        }, false)
+      }
+      //兼容IE
+      else if (document.attachEvent) {
+        document.attachEvent('onreadystatechange', function () {
+          if (document.readyState == "complete") {
+            document.detachEvent("onreadystatechange", arguments.callee);
+            callback();
+          }
+        })
+      }
+      else if (document.lastChild == document.body) {
+        callback();
+      }
+    }
+  </script>
+  <script>
+    // dom加载完就执行，不用等待图片等加载完就执行
+    document.ready(() => {
+      const theme = localStorage.getItem('theme')
+      console.log(theme);
+
+      var eleLinks = document.querySelectorAll('link[title]');
+
+      for (const item of eleLinks) {
+        item.disabled = true;
+        console.log(item.getAttribute('href'));
+        if (theme && theme === item.getAttribute('href')) {
+          item.disabled = false;
+        }
+      }
+    })
+
+    // const theme = localStorage.getItem('theme')
+    // console.log(theme);
+
+    // var eleLinks = document.querySelectorAll('link[title]');
+
+    // for (const item of eleLinks) {
+    //   item.disabled = true;
+    //   console.log(item.getAttribute('href'));
+    //   if (theme && theme === item.getAttribute('href')) {
+    //     item.disabled = false;
+    //   }
+    // }
+
+    console.log(eleLinks);
+    var eleRadios = document.querySelectorAll('input[type="radio"]');
+    [].slice.call(eleRadios).forEach(function (radio) {
+      radio.addEventListener('click', function () {
+        var value = this.value;
+        [].slice.call(eleLinks).forEach(function (link) {
+          link.disabled = true;
+          if (link.getAttribute('href') == value) {
+            localStorage.setItem('theme', value)
+            link.disabled = false;
+          }
+        });
+      });
+    });
+  </script>
+</body>
+
+</html>
