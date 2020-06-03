@@ -3,7 +3,7 @@
  * @author: SunSeekerX
  * @Date: 2020-05-24 12:24:52
  * @LastEditors: SunSeekerX
- * @LastEditTime: 2020-05-31 12:43:44
+ * @LastEditTime: 2020-06-03 13:21:46
  */
 
 export default {
@@ -36,4 +36,5 @@ export default {
     // 是否记录评论者IP
     recordIP: true,
   },
+  valineOptions: false
 }

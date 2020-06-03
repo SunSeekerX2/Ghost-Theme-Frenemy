@@ -1,0 +1,24 @@
+/**
+ * @name: 黑暗模式css主题变量
+ * @author: SunSeekerX
+ * @Date: 2020-06-03 14:06:45
+ * @LastEditors: SunSeekerX
+ * @LastEditTime: 2020-06-03 14:17:17
+ */
+ 
+:root {
+  /* 大标题 */
+  --color-full-title: #b7b7b7;
+  /* 内容标题H1 */
+  --color-content-h1: #b7b7b7;
+  /* 内容引用文字 */
+  --color-content-blockquote: #b7b7b7;
+  /* 链接 */
+  --color-a: #b7b7b7;
+
+  /* 基础背景色 */
+  --color-background-base: #080808;
+
+  /* 图片滤镜 */
+  --img-filter: brightness(50%);
+}

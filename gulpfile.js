@@ -3,7 +3,7 @@
  * @author: SunSeekerX
  * @Date: 2020-05-11 10:34:47
  * @LastEditors: SunSeekerX
- * @LastEditTime: 2020-06-02 22:19:36
+ * @LastEditTime: 2020-06-03 18:05:09
  */
 
 /**
@@ -52,12 +52,12 @@ const handleError = (done) => {
   }
 }
 
-function hbs(done) {
-  pump(
-    [src(['*.hbs', 'partials/**/*.hbs', '!node_modules/**/*.hbs'])],
-    handleError(done)
-  )
-}
+// function hbs(done) {
+//   pump(
+//     [src(['*.hbs', 'partials/**/*.hbs', '!node_modules/**/*.hbs'])],
+//     handleError(done)
+//   )
+// }
 
 function css(done) {
   const processors = [
@@ -71,7 +71,7 @@ function css(done) {
   // main
   pump(
     [
-      src('src/scss/main.scss', { sourcemaps: false }),
+      src(['src/scss/app.scss', 'src/scss/main.scss'], { sourcemaps: true }),
       sass().on('error', sass.logError),
       postcss(processors),
       rename({ suffix: '.min' }),
@@ -80,18 +80,26 @@ function css(done) {
     handleError(done)
   )
 
-  // app
   pump(
     [
-      src('src/scss/app.scss', { sourcemaps: false }),
-      sass().on('error', sass.logError),
-      postcss(processors),
+      src(['src/scss/default.css', 'src/scss/dark.css'], { sourcemaps: true }),
       rename({ suffix: '.min' }),
       dest('assets/css/', { sourcemaps: '.' }),
     ],
     handleError(done)
   )
 }
+
+// function theme(done) {
+//   pump(
+//     [
+//       src(['src/scss/default.css', 'src/scss/dark.css'], { sourcemaps: true }),
+//       rename({ suffix: '.min' }),
+//       dest('assets/css/', { sourcemaps: '.' }),
+//     ],
+//     handleError(done)
+//   )
+// }
 
 function js(done) {
   pump(
@@ -237,10 +245,11 @@ function testZipper(done) {
 
 const cssWatcher = () => watch(['src/scss/**'], css)
 const jsWatcher = () => watch('src/js/*.js', js)
-const hbsWatcher = () =>
-  watch(['*.hbs', '**/**/*.hbs', '!node_modules/**/*.hbs'], hbs)
-  
-const watcher = parallel(cssWatcher, jsWatcher, hbsWatcher)
+// const hbsWatcher = () =>
+//   watch(['*.hbs', '**/**/*.hbs', '!node_modules/**/*.hbs'], hbs)
+
+// const watcher = parallel(cssWatcher, jsWatcher, hbsWatcher)
+const watcher = parallel(cssWatcher, jsWatcher)
 const build = series(css, js)
 const dev = series(watcher, build)
 

@@ -23,13 +23,14 @@
 
   .post-full-meta {
     a {
-      color: #fff;
+      color: var(--color-full-title);
 
       &:hover {
-        text-decoration: #fff underline;
+        text-decoration: var(--color-full-title) underline;
       }
     }
   }
+  // 文章阅读量
   .post-full-meta-visitors {
     i {
       font-style: normal;
@@ -45,14 +46,14 @@
       }
     }
 
-    .post-full-meta {
-      a {
-        color: $dark-font;
+    // .post-full-meta {
+    //   a {
+    //     // color: $dark-font;
 
-        &:hover {
-          text-decoration: $dark-font underline;
-        }
-      }
-    }
+    //     &:hover {
+    //       text-decoration: $dark-font underline;
+    //     }
+    //   }
+    // }
   }
 }

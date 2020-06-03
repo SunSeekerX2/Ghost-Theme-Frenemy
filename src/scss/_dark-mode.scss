@@ -9,7 +9,11 @@ $bg-dark-2: rgba(37, 37, 37, 1) !default;
 
 $dark-font: #b7b7b7 !default;
 
-[data-theme='dark'] {
-  background-color: $bg-dark-1;
-  color: $dark-font;
+body{
+  color: var(--color-content-h1);
+  background-color: var(--color-background-base);
 }
+img{
+  filter: var(--img-filter);
+}
+

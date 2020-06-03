@@ -8,16 +8,22 @@ into the {body} of the default.hbs template --}}
 <div class="container">
   <div class="hero-content">
     <h1 class="post-full-title">{{title}}</h1>
+
     <section class="post-full-meta">
       <time class="post-full-meta-date" datetime="{{date format="YYYY-MM-DD"}}">{{date format="YYYY年MM月DD日"}}</time>
+
       {{#primary_tag}}
       <span class="date-divider">/</span>
       <a href="{{url}}">{{name}}</a>
       {{/primary_tag}}
+
       <span class="date-divider">/</span>
-      <span id="{{url}}" class="leancloud-visitors post-full-meta-visitors" data-flag-title="{{title}}">
-        <i class="post-meta-item-text">阅读量 </i>
-        <i class="leancloud-visitors-count"></i>
+
+      <span id="leancloud-visitors" style="display: none;">
+        <span id="{{url}}" class="leancloud-visitors post-full-meta-visitors" data-flag-title="{{title}}">
+          <i class="post-meta-item-text">阅读量 </i>
+          <i class="leancloud-visitors-count"></i>
+        </span>
       </span>
     </section>
   </div>

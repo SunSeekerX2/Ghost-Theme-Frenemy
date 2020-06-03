@@ -1,9 +1,9 @@
 /**
- * @name: 
+ * @name:
  * @author: SunSeekerX
  * @Date: 2020-05-28 17:23:32
  * @LastEditors: SunSeekerX
- * @LastEditTime: 2020-05-29 15:00:19
+ * @LastEditTime: 2020-06-03 17:57:42
  */
 
 import config from '@/config/index'
@@ -408,6 +408,23 @@ function removeClass(cssClasses, cssClass) {
 }
 
 /**
+ * @name 主题切换
+ */
+function changeTheme(theme) {
+  const themeList = ['default', 'dark']
+  const eleLinks = document.querySelectorAll('link[title]')
+
+  for (const item of eleLinks) {
+    if (themeList.includes(item.getAttribute('title'))) {
+      item.disabled = true
+      if (theme && theme === item.getAttribute('title')) {
+        item.disabled = false
+      }
+    }
+  }
+}
+
+/**
  * 日夜模式 - 加载
  */
 function initTheme() {
@@ -424,6 +441,12 @@ function initTheme() {
     document.querySelector('.dark-switch-label-span').innerHTML =
       '<i class="fas fa-moon"></i>'
   }
+
+  // 自定义
+  const theme = localStorage.getItem('THEME')
+  if (theme) {
+    changeTheme(theme)
+  }
 }
 
 /**
@@ -435,11 +458,19 @@ function resetTheme() {
     document.querySelector('.dark-switch-label-span').innerHTML =
       '<i class="fas fa-sun"></i>'
     localStorage.setItem('darkSwitch', 'dark')
+
+    // 自定义
+    changeTheme('dark')
+    localStorage.setItem('THEME', 'dark')
   } else {
     document.body.removeAttribute('data-theme')
     document.querySelector('.dark-switch-label-span').innerHTML =
       '<i class="fas fa-moon"></i>'
     localStorage.removeItem('darkSwitch')
+    
+    // 自定义
+    changeTheme('default')
+    localStorage.setItem('THEME', 'default')
   }
 }
 
@@ -508,74 +539,93 @@ function initPage() {
     touch: false,
   })
 
-  if (document.querySelector('.post-content pre code') !== null) {
-    //Prism高亮支持
-    if (typeof window.Prism === 'undefined') {
-      loadCSS(
-        '//cdn.jsdelivr.net/npm/prismjs@1.15.0/themes/prism-tomorrow.min.css'
-      )
-      loadScript(
-        '//cdn.jsdelivr.net/npm/prismjs/components/prism-core.min.js',
-        function () {
-          loadScript(
-            '//cdn.jsdelivr.net/npm/prismjs/plugins/autoloader/prism-autoloader.min.js',
-            function () {
-              //将html代码块支持高亮
-              $('.post-content pre code').attr('class', function (i, clazz) {
-                if (clazz !== undefined) {
-                  return clazz.replace(/language-html/g, 'language-markup')
-                }
-              })
-              //设置高亮语言样式文件地址
-              if (window.Prism !== 'undefined') {
-                Prism.plugins.autoloader.languages_path =
-                  '//cdn.jsdelivr.net/npm/prismjs/components/'
-                Prism.highlightAll()
-              }
-            }
-          )
-        }
-      )
-      //行号
-      loadCSS(
-        '//cdn.jsdelivr.net/npm/prismjs/plugins/line-numbers/prism-line-numbers.min.css'
-      )
-      loadScript(
-        '//cdn.jsdelivr.net/npm/prismjs/plugins/line-numbers/prism-line-numbers.min.js'
-      )
-      //支持行号显示
-      $('.post-content pre').addClass('line-numbers')
-      //显示语言或者粘贴
-      loadCSS(
-        '//cdn.jsdelivr.net/npm/prismjs/plugins/toolbar/prism-toolbar.min.css'
-      )
-      loadScript(
-        '//cdn.jsdelivr.net/npm/prismjs/plugins/toolbar/prism-toolbar.min.js'
-      )
-      loadScript(
-        '//cdn.jsdelivr.net/npm/prismjs/plugins/show-language/prism-show-language.min.js'
-      )
-      loadScript('//cdn.jsdelivr.net/npm/clipboard/dist/clipboard.min.js')
-      loadScript(
-        '//cdn.jsdelivr.net/npm/prismjs/plugins/copy-to-clipboard/prism-copy-to-clipboard.min.js'
-      )
-    } else {
-      //将html代码块支持高亮
-      $('.post-content pre code').attr('class', function (i, clazz) {
-        if (clazz !== undefined) {
-          return clazz.replace(/language-html/g, 'language-markup')
-        }
-      })
-      //设置高亮语言样式文件地址
-      if (window.Prism !== 'undefined') {
-        Prism.plugins.autoloader.languages_path =
-          '//cdn.jsdelivr.net/npm/prismjs/components/'
-        Prism.highlightAll()
-      }
-      //支持行号显示
-      $('.post-content pre').addClass('line-numbers')
-    }
-  }
+  // // Prism高亮支持
+  // if (document.querySelector('.post-content pre code') !== null) {
+  //   // Prism高亮支持
+  //   if (typeof window.Prism === 'undefined') {
+  //     loadCSS(
+  //       '//cdn.jsdelivr.net/npm/prismjs@1.15.0/themes/prism-tomorrow.min.css'
+  //     )
+  //     loadScript(
+  //       '//cdn.jsdelivr.net/npm/prismjs/components/prism-core.min.js',
+  //       function () {
+  //         loadScript(
+  //           '//cdn.jsdelivr.net/npm/prismjs/plugins/autoloader/prism-autoloader.min.js',
+  //           function () {
+  //             //将html代码块支持高亮
+  //             $('.post-content pre code').attr('class', function (i, clazz) {
+  //               if (clazz !== undefined) {
+  //                 return clazz.replace(/language-html/g, 'language-markup')
+  //               }
+  //             })
+  //             //设置高亮语言样式文件地址
+  //             if (window.Prism !== 'undefined') {
+  //               Prism.plugins.autoloader.languages_path =
+  //                 '//cdn.jsdelivr.net/npm/prismjs/components/'
+  //               Prism.highlightAll()
+  //             }
+  //           }
+  //         )
+  //       }
+  //     )
+  //     //行号
+  //     loadCSS(
+  //       '//cdn.jsdelivr.net/npm/prismjs/plugins/line-numbers/prism-line-numbers.min.css'
+  //     )
+  //     loadScript(
+  //       '//cdn.jsdelivr.net/npm/prismjs/plugins/line-numbers/prism-line-numbers.min.js'
+  //     )
+  //     //支持行号显示
+  //     $('.post-content pre').addClass('line-numbers')
+  //     //显示语言或者粘贴
+  //     loadCSS(
+  //       '//cdn.jsdelivr.net/npm/prismjs/plugins/toolbar/prism-toolbar.min.css'
+  //     )
+  //     loadScript(
+  //       '//cdn.jsdelivr.net/npm/prismjs/plugins/toolbar/prism-toolbar.min.js'
+  //     )
+  //     loadScript(
+  //       '//cdn.jsdelivr.net/npm/prismjs/plugins/show-language/prism-show-language.min.js'
+  //     )
+  //     loadScript('//cdn.jsdelivr.net/npm/clipboard/dist/clipboard.min.js')
+  //     loadScript(
+  //       '//cdn.jsdelivr.net/npm/prismjs/plugins/copy-to-clipboard/prism-copy-to-clipboard.min.js'
+  //     )
+  //   } else {
+  //     //将html代码块支持高亮
+  //     $('.post-content pre code').attr('class', function (i, clazz) {
+  //       if (clazz !== undefined) {
+  //         return clazz.replace(/language-html/g, 'language-markup')
+  //       }
+  //     })
+  //     //设置高亮语言样式文件地址
+  //     if (window.Prism !== 'undefined') {
+  //       Prism.plugins.autoloader.languages_path =
+  //         '//cdn.jsdelivr.net/npm/prismjs/components/'
+  //       Prism.highlightAll()
+  //     }
+  //     //支持行号显示
+  //     $('.post-content pre').addClass('line-numbers')
+  //   }
+
+  // Prism高亮支持
+  // if (document.querySelector('.post-content pre code') !== null) {
+  //   // Prism高亮支持
+  //   if (typeof window.Prism === 'undefined') {
+  //     //行号
+  //     loadCSS(
+  //       '//cdn.jsdelivr.net/npm/prismjs/plugins/line-numbers/prism-line-numbers.min.css'
+  //     )
+  //     loadScript(
+  //       '//cdn.jsdelivr.net/npm/prismjs/plugins/line-numbers/prism-line-numbers.min.js'
+  //     )
+  //     //支持行号显示
+  //     $('.post-content pre').addClass('line-numbers')
+  //   } else {
+  //     //支持行号显示
+  //     $('.post-content pre').addClass('line-numbers')
+  //   }
+  // }
 
   /**
    * 图箱支持
@@ -645,7 +695,7 @@ function initPage() {
       localStorage.setItem('noPopUp', true)
     })
   } else {
-    $('#toast').toast('hide')
+    $('#toast').addClass('hide')
   }
 }
 
@@ -766,6 +816,9 @@ window.onload = function () {
     }
     // 评论
     if (config.valineOptions) {
+      // 显示阅读量
+      $('#leancloud-visitors').css('display', 'inline-block')
+      // 初始化Valine
       initValine(config.valineOptions)
     }
     // 监听点击链接时间，非本站链接进行新标签打开

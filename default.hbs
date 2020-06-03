@@ -8,20 +8,28 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 
   {{!-- Base Meta --}}
-  <title>{{meta_title page=(t " (第%页)")}}{{#is "post, page"}} – {{@site.title}}{{/is}}</title>
+  <title>{{ meta_title page=(t " (第%页)") }}{{#is "post, page"}} – {{@site.title}}{{/is}}</title>
   <meta name="HandheldFriendly" content="True" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="keywords" content="SunSeekerX,Vue,React-native,uni-app,Node.js,Express,Sequelize">
 
   {{!-- Styles'n'Scripts --}}
-  <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/bootstrap/dist/css/bootstrap.min.css" />
-  <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" />
-  {{!-- <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css" /> --}}
-  <link rel="stylesheet" type="text/css" href="{{asset "css/app.min.css?ver=20200112"}}" />
-  <link rel="stylesheet" type="text/css" href="{{asset "css/main.min.css?ver=20200112"}}" />
+  {{!-- dev --}}
+  <link rel="stylesheet" type="text/css" href="{{asset "static/normalize.css"}}" />
+  <link rel="stylesheet" type="text/css" href="{{asset "static/bootstrap-4.5.0/css/bootstrap.css"}}" />
+  <link rel="stylesheet" type="text/css" href="{{asset "static/prism/prism.css"}}" />
+  <link rel="stylesheet" type="text/css" href="{{asset "static/fontawesome-free-5.13.0-web/css/all.min.css"}}" />
+  {{!-- <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/bootstrap/dist/css/bootstrap.min.css" /> --}}
+  {{!-- <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" /> --}}
+  {{!-- theme --}}
+  <link rel="stylesheet" type="text/css" href="{{asset "css/default.min.css"}}" title="default">
+  <link rel="alternate stylesheet" type="text/css" href="{{asset "css/dark.min.css"}}" title="dark">
+
+  <link rel="stylesheet" type="text/css" href="{{asset "css/app.min.css"}}" />
+  <link rel="stylesheet" type="text/css" href="{{asset "css/main.min.css"}}" />
 
   {{!-- dns预加载 --}}
-  <link rel="dns-prefetch" href="{{@site.url}}">
+  {{!-- <link rel="dns-prefetch" href="{{@site.url}}">
   <link rel="dns-prefetch" href="//casper.ghost.org">
   <link rel="dns-prefetch" href="//static.ghost.org">
   <link rel="dns-prefetch" href="//cdn.jsdelivr.net">
@@ -30,18 +38,21 @@
   <link rel="dns-prefetch" href="//zz.bdstatic.com">
   <link rel="dns-prefetch" href="//sp0.baidu.com">
   <link rel="dns-prefetch" href="//api.share.baidu.com">
-  <link rel="dns-prefetch" href="//push.zhanzhang.baidu.com">
+  <link rel="dns-prefetch" href="//push.zhanzhang.baidu.com"> --}}
 
   {{!-- This tag outputs SEO meta+structured data and other important settings --}}
   {{ghost_head}}
 </head>
 
-<body class="{{body_class}}">
+
+{{!-- line-numbers is for prism code line numbers --}}
+
+<body class="{{body_class}} line-numbers">
 
   <div class="site-warp">
 
     {{!-- All the main content gets inserted here, index.hbs, post.hbs, etc --}}
-    {{{body}}}
+    {{{ body }}}
 
     {{!-- The footer at the very bottom of the screen --}}
     <footer class="site-footer">
@@ -51,14 +62,6 @@
             2020. Crafted with <a href="https://github.com/SunSeekerX/Ghost-Theme-Frenemy" target="_blank"
               rel="noopener nofollow">Frenemy</a>.</p>
         </div>
-        {{!-- <nav class="social-links d-none d-sm-block">
-          <ul>
-            <li class="social-link"><a target="_blank" rel="noopener nofollow" href="https://weibo.com/jaxsonwang"><i
-                  class="fab fa-weibo"></i></a></li>
-            <li class="social-link"><a target="_blank" rel="noopener nofollow"
-                href="https://twitter.com/jaxsonwangchina"><i class="fab fa-twitter"></i></a></li>
-          </ul>
-        </nav> --}}
       </div>
       <div class="container copyright text-center">
         <p>
@@ -66,20 +69,26 @@
         </p>
       </div>
     </footer>
-    <div id="return-to-top" class="fixed-tools animated"><i class="fas fa-angle-double-up"></i></div>
-    {{!-- {{> "toasts"}} --}}
+
+    <div id="return-to-top" class="fixed-tools animated">
+      <i class="fas fa-angle-double-up"></i>
+    </div>
+
+    {{!-- toast tips --}}
+    {{> "toasts"}}
   </div>
 
   {{!-- Ghost outputs important scripts and data with this tag - it should always be the very last thing before the closing body tag --}}
-  {{ghost_foot}}
+  {{ ghost_foot }}
 
   {{!-- JavaScript --}}
-  <script type="text/javascript" src="//cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
-  <script type="text/javascript" src="//cdn.jsdelivr.net/npm/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-  {{!-- <script type="text/javascript" src="//cdn.jsdelivr.net/npm/jquery-pjax/jquery.pjax.min.js"></script> --}}
-  {{!-- <script src="{{asset "js/app.min.js?ver=191212"}}"></script> --}}
+  {{!-- <script type="text/javascript" src="//cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script> --}}
+  {{!-- <script type="text/javascript" src="//cdn.jsdelivr.net/npm/bootstrap/dist/js/bootstrap.bundle.min.js"></script> --}}
+  {{!-- dev --}}
+  <script type="text/javascript" src="{{asset "static/jquery-3.5.1/dist/jquery.js?ver=191212"}}"></script>
+  <script type="text/javascript" src="{{asset "static/bootstrap-4.5.0/js/bootstrap.js?ver=191212"}}"></script>
+  <script type="text/javascript" src="{{asset "static/prism/prism.js?ver=191212"}}"></script>
   <script src="{{asset "js/main.min.js?ver=191212"}}"></script>
-  {{!-- {{> "search"}} --}}
 </body>
 
 </html>
