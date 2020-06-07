@@ -1,5 +1,7 @@
 # Ghost Theme Frenemy
 
+一个适合阅读的`Ghost blog`主题。
+
 > 来源：[Ghost-Theme-Frenemy](https://github.com/JaxsonWang/Ghost-Theme-Frenemy)
 >
 > 大佬新的主题：[Rebirth](https://github.com/JaxsonWang/Rebirth)
